@@ -2,24 +2,25 @@ import { BrowserModule } from '@angular/platform-browser';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChatComponent } from './core/components/chat/chat.component';
 import { SharedModule } from './shared/shared.module';
-import { FormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+import { SOCKET_URL } from './constants';
+import { CoreModule } from './core/core.module';
+import { AuthModule } from './auth/auth.module';
+import { FormsModule } from '@angular/forms';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-const socketConfig: SocketIoConfig = { url: 'https://47c9a360.ngrok.io/' };
+const socketConfig: SocketIoConfig = { url: SOCKET_URL };
 
 @NgModule({
   declarations: [
     AppComponent,
-    ChatComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +36,8 @@ const socketConfig: SocketIoConfig = { url: 'https://47c9a360.ngrok.io/' };
         deps: [HttpClient],
       },
     }),
+    CoreModule,
+    AuthModule,
   ],
   providers: [
     {
