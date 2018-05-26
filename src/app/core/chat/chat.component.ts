@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MessageModel } from '../../../shared/message/message.model';
-import { AuthService } from '../../../shared/auth/auth.service';
+import { MessageModel } from '../../shared/message/message.model';
+import { AuthService } from '../../shared/auth/auth.service';
 import { Subscription } from 'rxjs/Subscription';
-import { MessageService } from '../../../shared/message/message.service';
+import { MessageService } from '../../shared/message/message.service';
 
 @Component({
   selector: 'app-chat',
