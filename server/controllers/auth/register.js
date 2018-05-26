@@ -1,5 +1,6 @@
 const User = require('mongoose').model('User');
 const response = require('../../utils/response');
+const capitalize = require('../../utils/capitalize');
 
 const register = async (req, res) => {
   const send = response(res);
@@ -13,7 +14,10 @@ const register = async (req, res) => {
 
     let user = new User();
 
-    user.name = name;
+    user.name = {
+      first: capitalize(name.first),
+      last: capitalize(name.last),
+    };
     user.email = email;
 
     user.setPassword(password);

@@ -1,3 +1,51 @@
-<p>
-  register works!
-</p>
+<div class="container">
+  <form #registerForm="ngForm" (submit)="register(registerForm)">
+    <div class="form-group">
+      <label for="firstName">First name:</label>
+      <input
+        type="text"
+        name="firstName"
+        id="firstName"
+        [(ngModel)]="tokenPayload.name.first"
+        required
+      >
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last name:</label>
+      <input
+        type="text"
+        name="lastName"
+        id="lastName"
+        [(ngModel)]="tokenPayload.name.last"
+        required
+      >
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        [pattern]="regexp.email.source"
+        [(ngModel)]="tokenPayload.email"
+        required
+      >
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        [pattern]="regexp.password.source"
+        [(ngModel)]="tokenPayload.password"
+        required
+      >
+    </div>
+    <div class="form-group">
+      <button type="submit" class="btn btn-success" [disabled]="!registerForm.valid">
+        Sign up
+      </button>
+    </div>
+  </form>
+</div>

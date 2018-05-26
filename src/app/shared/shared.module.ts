@@ -7,6 +7,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
 import { HeaderComponent } from './components/header/header.component';
 import { RouterModule } from '@angular/router';
+import { RegexpService } from './regexp/regexp.service';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { RouterModule } from '@angular/router';
       useClass: AuthInterceptor,
       multi: true,
     },
+    RegexpService,
   ],
   declarations: [
     HeaderComponent,

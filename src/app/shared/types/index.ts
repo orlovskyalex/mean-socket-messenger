@@ -13,5 +13,8 @@ export interface TokenResponse {
 export interface TokenPayload {
   email: string;
   password: string;
-  name?: string;
+  name?: {
+    first: string;
+    last: string;
+  };
 }

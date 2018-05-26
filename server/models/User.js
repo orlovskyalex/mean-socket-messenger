@@ -9,7 +9,16 @@ const userSchema = mongoose.Schema({
     required: true,
   },
   name: {
-    type: String,
+    type: {
+      first: {
+        type: String,
+        required: true,
+      },
+      last: {
+        type: String,
+        required: true,
+      },
+    },
     required: true,
   },
   hash: String,
@@ -37,5 +46,9 @@ userSchema.methods.generateJwt = function () {
     exp: parseInt(expiry.getTime() / 1000),
   }, process.env.JWT_SECRET_KEY);
 };
+
+userSchema.virtual('fullName').get(function () {
+  return `${this.name.first} ${this.name.last}`;
+});
 
 mongoose.model('User', userSchema);

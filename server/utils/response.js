@@ -1,28 +1,22 @@
 const response = (res) => {
   const prepareErrors = (errors) => {
-    const response = {
-      data: null,
-      errors: [],
-    };
+    let errorsArray = [];
 
     if (Array.isArray(errors)) {
-      response.errors = errors;
+      errorsArray = errors;
     } else if (typeof errors === 'object') {
-      response.errors.push(errors);
+      errorsArray.push(errors);
     } else if (typeof errors === 'string') {
-      response.errors.push({ message: errors });
+      errorsArray.push({ message: errors });
     } else {
-      response.errors.push({ message: 'Bad request!' });
+      errorsArray.push({ message: 'Bad request!' });
     }
 
-    return response;
+    return errorsArray;
   };
 
   const sendJSONResponse = (data) => {
-    return res.send({
-      data,
-      errors: null,
-    });
+    res.send(data);
   };
 
   const sendBadResponse = (errors, status = 400) => {
