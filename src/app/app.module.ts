@@ -11,6 +11,8 @@ import { SOCKET_URL } from './constants';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -38,6 +40,8 @@ const socketConfig: SocketIoConfig = { url: SOCKET_URL };
     }),
     CoreModule,
     AuthModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [
     {

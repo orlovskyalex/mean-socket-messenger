@@ -1,51 +1,74 @@
-<div class="container">
-  <form #registerForm="ngForm" (submit)="register(registerForm)">
-    <div class="form-group">
-      <label for="firstName">First name:</label>
-      <input
-        type="text"
-        name="firstName"
-        id="firstName"
-        [(ngModel)]="tokenPayload.name.first"
-        required
-      >
-    </div>
-    <div class="form-group">
-      <label for="lastName">Last name:</label>
-      <input
-        type="text"
-        name="lastName"
-        id="lastName"
-        [(ngModel)]="tokenPayload.name.last"
-        required
-      >
-    </div>
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input
-        type="email"
-        name="email"
-        id="email"
-        [pattern]="regexp.email.source"
-        [(ngModel)]="tokenPayload.email"
-        required
-      >
-    </div>
-    <div class="form-group">
-      <label for="password">Password:</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        [pattern]="regexp.password.source"
-        [(ngModel)]="tokenPayload.password"
-        required
-      >
-    </div>
-    <div class="form-group">
+<div class="page-content">
+  <div class="container">
+    <form
+      #registerForm="ngForm"
+      class="col-md-6 offset-md-3"
+      (submit)="register(registerForm)"
+    >
+      <div class="form-group">
+        <label for="firstName">
+          {{ 'REGISTER.FORM.FIRST_NAME' | translate }}
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          name="firstName"
+          id="firstName"
+          [pattern]="regexp.name.source"
+          [(ngModel)]="tokenPayload.name.first"
+          required
+          autofocus
+        >
+      </div>
+      <div class="form-group">
+        <label for="lastName">
+          {{ 'REGISTER.FORM.LAST_NAME' | translate }}
+        </label>
+        <input
+          type="text"
+          class="form-control"
+          name="lastName"
+          id="lastName"
+          [pattern]="regexp.name.source"
+          [(ngModel)]="tokenPayload.name.last"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="email">
+          {{ 'REGISTER.FORM.EMAIL' | translate }}
+        </label>
+        <input
+          type="email"
+          class="form-control"
+          name="email"
+          id="email"
+          [pattern]="regexp.email.source"
+          [(ngModel)]="tokenPayload.email"
+          required
+        >
+      </div>
+      <div class="form-group">
+        <label for="password">
+          {{ 'REGISTER.FORM.PASSWORD' | translate }}
+        </label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          id="password"
+          [pattern]="regexp.password.source"
+          [(ngModel)]="tokenPayload.password"
+          required
+          aria-describedby="passwordHint"
+        >
+        <small id="passwordHint" class="form-text text-muted">
+          {{ 'REGISTER.FORM.PASSWORD_HINT' | translate }}
+        </small>
+      </div>
       <button type="submit" class="btn btn-success" [disabled]="!registerForm.valid">
-        Sign up
+        {{ 'REGISTER.FORM.SUBMIT' | translate }}
       </button>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

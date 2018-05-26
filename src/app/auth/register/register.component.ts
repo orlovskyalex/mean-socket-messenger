@@ -4,6 +4,8 @@ import { NgForm } from '@angular/forms';
 import { AuthService } from '../../shared/auth/auth.service';
 import { TokenPayload } from '../../shared/types';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
@@ -24,6 +26,8 @@ export class RegisterComponent {
   constructor(
     public regexp: RegexpService,
     private auth: AuthService,
+    private toastr: ToastrService,
+    private translate: TranslateService,
   ) {
   }
 
@@ -35,12 +39,12 @@ export class RegisterComponent {
     this.auth.register(this.tokenPayload)
       .toPromise()
       .then(() => {
-        console.log('registered successfully');
+        this.toastr.success(this.translate.instant('REGISTER.NOTIFICATION.SUCCESS'));
         form.resetForm();
       })
       .catch(({ error }: HttpErrorResponse) => {
         for (const e of error) {
-          console.error(`Register error: ${e.message}`);
+          this.toastr.error(e.message);
         }
       });
   }
@@ -50,6 +54,15 @@ export class RegisterComponent {
     const password = form.value.password.trim();
     const firstName = form.value.firstName.trim();
     const lastName = form.value.lastName.trim();
+
+    if (this.regexp.containsEmoji(email, password, firstName, lastName)) {
+      this.toastr.warning(
+        `🙅‍🤦‍ ${this.translate.instant('REGISTER.NOTIFICATION.NO_EMOJI')} 😡`,
+        null,
+        { toastClass: 'toast toast-warning toast-warning-emoji' },
+      );
+      return false;
+    }
 
     const emailValid = email.length && this.regexp.email.test(email);
     const passwordValid = password.length && this.regexp.password.test(password);

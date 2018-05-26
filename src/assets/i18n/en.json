@@ -2,5 +2,19 @@
   "CHAT": {
     "SEND": "Send",
     "ENTER_MESSAGE": "Enter message..."
+  },
+  "REGISTER": {
+    "FORM": {
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "EMAIL": "Email",
+      "PASSWORD": "Password",
+      "PASSWORD_HINT": "Use at least one small letter, one big letter, one numeral, and seven characters. Do not use spaces or emoji.",
+      "SUBMIT": "Sign up"
+    },
+    "NOTIFICATION": {
+      "SUCCESS": "You can now sign in",
+      "NO_EMOJI": "DO NOT use emoji!"
+    }
   }
 }
