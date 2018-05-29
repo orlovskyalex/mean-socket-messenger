@@ -15,16 +15,20 @@ import { Router } from '@angular/router';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  private auth: AuthService;
-
-  constructor(private inj: Injector, private router: Router) {
+  constructor(private auth: AuthService, private router: Router) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.auth = this.inj.get(AuthService);
     const token = this.auth.getToken();
-    const url = (request.url.startsWith('http') || request.url.startsWith('/assets')) ? request.url
-      : `${API_URL}${request.url}`;
+
+    let url;
+
+    if (request.url.startsWith('http') || request.url.startsWith('/assets')) {
+      url = request.url;
+    } else {
+      url = `${API_URL}${request.url}`;
+    }
+
     request = request.clone({
       url,
       setHeaders: {
@@ -45,8 +49,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
         if (err instanceof HttpErrorResponse) {
           if (err.status === 401 && token) {
-            this.auth.logout();
-            this.router.navigate(['/', 'auth', 'signin']);
+            this.auth.signOut();
+            this.router.navigateByUrl('/auth');
           }
         }
       }),

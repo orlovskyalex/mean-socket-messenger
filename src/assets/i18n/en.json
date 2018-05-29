@@ -9,14 +9,12 @@
     "SEND": "Send",
     "ENTER_MESSAGE": "Enter message..."
   },
-  "REGISTER": {
-    "FORM": {
-      "FIRST_NAME": "First name",
-      "LAST_NAME": "Last name",
-      "EMAIL": "Email",
-      "PASSWORD": "Password",
-      "PASSWORD_HINT": "Use at least one small letter, one big letter, one numeral, and from seven up to eighteen characters. Do not use spaces or emoji.",
-      "SUBMIT": "Sign up"
-    }
+  "SIGN_UP": {
+    "FIRST_NAME": "First name",
+    "LAST_NAME": "Last name",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "PASSWORD_HINT": "Use at least one small letter, one big letter, one numeral, and from seven up to eighteen characters. Do not use spaces or emoji.",
+    "SUBMIT": "Sign up"
   }
 }

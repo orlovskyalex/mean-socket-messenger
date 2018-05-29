@@ -9,6 +9,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { RouterModule } from '@angular/router';
 import { RegexService } from './regex/regex.service';
 import { FormValidationService } from './form-validation/form-validation.service';
+import { UserService } from './user/user.service';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { FormValidationService } from './form-validation/form-validation.service
     },
     FormValidationService,
     RegexService,
+    UserService,
   ],
   declarations: [
     HeaderComponent,

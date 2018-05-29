@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const auth = require('../../middlewares/auth');
 
-router.get('/', auth, require('./getProfile'));
+router.get('/:userId', auth, require('./getUser'));
 
 module.exports = router;

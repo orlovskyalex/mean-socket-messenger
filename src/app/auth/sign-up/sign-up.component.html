@@ -1,29 +1,29 @@
 <div class="page-content">
   <div class="container">
-    <form [formGroup]="form" class="col-md-6 offset-md-3" (submit)="register()">
+    <form [formGroup]="form" class="col-md-6 offset-md-3" (submit)="signUp()">
       <div formGroupName="name">
         <div class="form-group">
           <label for="firstName">
-            {{ 'REGISTER.FORM.FIRST_NAME' | translate }}
+            {{ 'SIGN_UP.FIRST_NAME' | translate }}
           </label>
           <input type="text" class="form-control" id="firstName" formControlName="first" autofocus>
         </div>
         <div class="form-group">
           <label for="lastName">
-            {{ 'REGISTER.FORM.LAST_NAME' | translate }}
+            {{ 'SIGN_UP.LAST_NAME' | translate }}
           </label>
           <input type="text" class="form-control" id="lastName" formControlName="last">
         </div>
       </div>
       <div class="form-group">
         <label for="email">
-          {{ 'REGISTER.FORM.EMAIL' | translate }}
+          {{ 'SIGN_UP.EMAIL' | translate }}
         </label>
         <input type="email" class="form-control" id="email" formControlName="email">
       </div>
       <div class="form-group">
         <label for="password">
-          {{ 'REGISTER.FORM.PASSWORD' | translate }}
+          {{ 'SIGN_UP.PASSWORD' | translate }}
         </label>
         <input
           type="password"
@@ -33,11 +33,11 @@
           formControlName="password"
         >
         <small id="passwordHint" class="form-text text-muted">
-          {{ 'REGISTER.FORM.PASSWORD_HINT' | translate }}
+          {{ 'SIGN_UP.PASSWORD_HINT' | translate }}
         </small>
       </div>
       <button type="submit" class="btn btn-success" [disabled]="form.invalid">
-        {{ 'REGISTER.FORM.SUBMIT' | translate }}
+        {{ 'SIGN_UP.SUBMIT' | translate }}
       </button>
     </form>
   </div>

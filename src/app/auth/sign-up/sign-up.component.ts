@@ -6,11 +6,11 @@ import { FormValidationService } from '../../shared/form-validation/form-validat
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.scss'],
 })
-export class RegisterComponent implements OnInit {
+export class SignUpComponent implements OnInit {
 
   form: FormGroup;
 
@@ -26,12 +26,12 @@ export class RegisterComponent implements OnInit {
     this.buildForm();
   }
 
-  register() {
+  signUp() {
     if (this.form.invalid) {
       return;
     }
 
-    this.auth.register(this.form.value)
+    this.auth.signUp(this.form.value)
       .toPromise()
       .then(() => this.resetForm())
       .catch(({ error }: HttpErrorResponse) => {

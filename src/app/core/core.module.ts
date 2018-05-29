@@ -5,7 +5,6 @@ import { ChatComponent } from './chat/chat.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { HomeComponent } from './home/home.component';
 
 @NgModule({
   imports: [
@@ -17,7 +16,6 @@ import { HomeComponent } from './home/home.component';
   declarations: [
     CoreComponent,
     ChatComponent,
-    HomeComponent,
   ],
 })
 export class CoreModule {

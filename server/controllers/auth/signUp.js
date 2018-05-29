@@ -2,7 +2,7 @@ const User = require('mongoose').model('User');
 const response = require('../../utils/response');
 const capitalize = require('../../utils/capitalize');
 
-const register = async (req, res) => {
+const signUp = async (req, res) => {
   const send = response(res);
 
   try {
@@ -26,9 +26,9 @@ const register = async (req, res) => {
     send.json({ token: user.generateJwt() });
   } catch ({ code, message }) {
     const e = code === 11000 ? 'User already exists!' : message;
-    console.log('register error:', e);
+    console.log('sign up error:', e);
     send.error(e);
   }
 };
 
-module.exports = register;
+module.exports = signUp;
