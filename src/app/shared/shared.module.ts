@@ -7,7 +7,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
 import { HeaderComponent } from './components/header/header.component';
 import { RouterModule } from '@angular/router';
-import { RegexpService } from './regexp/regexp.service';
+import { RegexService } from './regex/regex.service';
+import { FormValidationService } from './form-validation/form-validation.service';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { RegexpService } from './regexp/regexp.service';
       useClass: AuthInterceptor,
       multi: true,
     },
-    RegexpService,
+    FormValidationService,
+    RegexService,
   ],
   declarations: [
     HeaderComponent,

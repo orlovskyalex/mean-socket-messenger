@@ -1,52 +1,25 @@
 <div class="page-content">
   <div class="container">
-    <form
-      #registerForm="ngForm"
-      class="col-md-6 offset-md-3"
-      (submit)="register(registerForm)"
-    >
-      <div class="form-group">
-        <label for="firstName">
-          {{ 'REGISTER.FORM.FIRST_NAME' | translate }}
-        </label>
-        <input
-          type="text"
-          class="form-control"
-          name="firstName"
-          id="firstName"
-          [pattern]="regexp.name.source"
-          [(ngModel)]="tokenPayload.name.first"
-          required
-          autofocus
-        >
-      </div>
-      <div class="form-group">
-        <label for="lastName">
-          {{ 'REGISTER.FORM.LAST_NAME' | translate }}
-        </label>
-        <input
-          type="text"
-          class="form-control"
-          name="lastName"
-          id="lastName"
-          [pattern]="regexp.name.source"
-          [(ngModel)]="tokenPayload.name.last"
-          required
-        >
+    <form [formGroup]="form" class="col-md-6 offset-md-3" (submit)="register()">
+      <div formGroupName="name">
+        <div class="form-group">
+          <label for="firstName">
+            {{ 'REGISTER.FORM.FIRST_NAME' | translate }}
+          </label>
+          <input type="text" class="form-control" id="firstName" formControlName="first" autofocus>
+        </div>
+        <div class="form-group">
+          <label for="lastName">
+            {{ 'REGISTER.FORM.LAST_NAME' | translate }}
+          </label>
+          <input type="text" class="form-control" id="lastName" formControlName="last">
+        </div>
       </div>
       <div class="form-group">
         <label for="email">
           {{ 'REGISTER.FORM.EMAIL' | translate }}
         </label>
-        <input
-          type="email"
-          class="form-control"
-          name="email"
-          id="email"
-          [pattern]="regexp.email.source"
-          [(ngModel)]="tokenPayload.email"
-          required
-        >
+        <input type="email" class="form-control" id="email" formControlName="email">
       </div>
       <div class="form-group">
         <label for="password">
@@ -55,18 +28,15 @@
         <input
           type="password"
           class="form-control"
-          name="password"
           id="password"
-          [pattern]="regexp.password.source"
-          [(ngModel)]="tokenPayload.password"
-          required
           aria-describedby="passwordHint"
+          formControlName="password"
         >
         <small id="passwordHint" class="form-text text-muted">
           {{ 'REGISTER.FORM.PASSWORD_HINT' | translate }}
         </small>
       </div>
-      <button type="submit" class="btn btn-success" [disabled]="!registerForm.valid">
+      <button type="submit" class="btn btn-success" [disabled]="form.invalid">
         {{ 'REGISTER.FORM.SUBMIT' | translate }}
       </button>
     </form>

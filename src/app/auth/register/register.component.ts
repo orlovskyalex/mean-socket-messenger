@@ -1,47 +1,39 @@
-import { Component } from '@angular/core';
-import { RegexpService } from '../../shared/regexp/regexp.service';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../../shared/auth/auth.service';
-import { TokenPayload } from '../../shared/types';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { FormValidationService } from '../../shared/form-validation/form-validation.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnInit {
 
-  tokenPayload: TokenPayload = {
-    email: null,
-    password: null,
-    name: {
-      first: null,
-      last: null,
-    },
-  };
+  form: FormGroup;
 
   constructor(
-    public regexp: RegexpService,
     private auth: AuthService,
     private toastr: ToastrService,
-    private translate: TranslateService,
+    private fb: FormBuilder,
+    private formValidation: FormValidationService,
   ) {
   }
 
-  register(form: NgForm) {
-    if (!(form.valid && this._formValid(form))) {
+  ngOnInit() {
+    this.buildForm();
+  }
+
+  register() {
+    if (this.form.invalid) {
       return;
     }
 
-    this.auth.register(this.tokenPayload)
+    this.auth.register(this.form.value)
       .toPromise()
-      .then(() => {
-        this.toastr.success(this.translate.instant('REGISTER.NOTIFICATION.SUCCESS'));
-        form.resetForm();
-      })
+      .then(() => this.resetForm())
       .catch(({ error }: HttpErrorResponse) => {
         for (const e of error) {
           this.toastr.error(e.message);
@@ -49,26 +41,19 @@ export class RegisterComponent {
       });
   }
 
-  private _formValid(form: NgForm): boolean {
-    const email = form.value.email.trim();
-    const password = form.value.password.trim();
-    const firstName = form.value.firstName.trim();
-    const lastName = form.value.lastName.trim();
+  private buildForm() {
+    this.form = this.fb.group({
+      name: this.fb.group({
+        first: [null, this.formValidation.userName()],
+        last: [null, this.formValidation.userName()],
+      }),
+      email: [null, this.formValidation.email()],
+      password: [null, this.formValidation.password()],
+    });
+  }
 
-    if (this.regexp.containsEmoji(email, password, firstName, lastName)) {
-      this.toastr.warning(
-        `🙅‍🤦‍ ${this.translate.instant('REGISTER.NOTIFICATION.NO_EMOJI')} 😡`,
-        null,
-        { toastClass: 'toast toast-warning toast-warning-emoji' },
-      );
-      return false;
-    }
-
-    const emailValid = email.length && this.regexp.email.test(email);
-    const passwordValid = password.length && this.regexp.password.test(password);
-    const nameValid = firstName.length && lastName.length;
-
-    return emailValid && passwordValid && nameValid;
+  private resetForm() {
+    this.form.reset();
   }
 
 }

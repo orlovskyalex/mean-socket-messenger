@@ -1,15 +1,20 @@
 import { Injectable } from '@angular/core';
 import * as emojiRegex from 'emoji-regex';
+import { singleLineRegExp } from '../utils/singleLineRegExp.tag';
 
 @Injectable()
-export class RegexpService {
+export class RegexService {
 
   private nameRegex = /^([a-zA-Z]{2,})$/;
 
-  // e.g. "my.email@example.com"
-  private emailRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})$/;
+  // RFC 2822 compliant regex
+  private emailRegex = new RegExp(singleLineRegExp`
+    ^(?!.*[\\s])[a-z0-9!#$%&'*+/=?^_\`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_\`{|}~-]+)*
+    @(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$
+  `);
 
-  // at least one small letter, one big letter, one number, no whitespaces
+  // at least one small letter, one big letter, one numeral, seven characters
+  // no whitespaces or emoji
   private passwordRegex = /^(?!.*[\s])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,}$/;
 
   private emojiRegex = emojiRegex();
@@ -28,10 +33,6 @@ export class RegexpService {
 
   get emoji(): RegExp {
     return this.emojiRegex;
-  }
-
-  containsEmoji(...strings: string[]): boolean {
-    return strings.some(string => this.emoji.test(string));
   }
 
 }

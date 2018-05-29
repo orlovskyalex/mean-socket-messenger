@@ -1,4 +1,10 @@
 {
+  "VALIDATION_ERRORS": {
+    "UNKNOWN": "Please check the entered value",
+    "REQUIRED": "Field is required",
+    "PATTERN": "Value does not match the required format",
+    "EMOJI": "🙅‍ DO NOT use emoji here 🤦"
+  },
   "CHAT": {
     "SEND": "Send",
     "ENTER_MESSAGE": "Enter message..."
@@ -9,12 +15,8 @@
       "LAST_NAME": "Last name",
       "EMAIL": "Email",
       "PASSWORD": "Password",
-      "PASSWORD_HINT": "Use at least one small letter, one big letter, one numeral, and seven characters. Do not use spaces or emoji.",
+      "PASSWORD_HINT": "Use at least one small letter, one big letter, one numeral, and from seven up to eighteen characters. Do not use spaces or emoji.",
       "SUBMIT": "Sign up"
-    },
-    "NOTIFICATION": {
-      "SUCCESS": "You can now sign in",
-      "NO_EMOJI": "DO NOT use emoji!"
     }
   }
 }

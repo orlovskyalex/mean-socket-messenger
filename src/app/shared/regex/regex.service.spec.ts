@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { RegexpService } from './regexp.service';
+import { RegexService } from './regex.service';
 
 describe('RegexpService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [RegexpService]
+      providers: [RegexService]
     });
   });
 
-  it('should be created', inject([RegexpService], (service: RegexpService) => {
+  it('should be created', inject([RegexService], (service: RegexService) => {
     expect(service).toBeTruthy();
   }));
 });
