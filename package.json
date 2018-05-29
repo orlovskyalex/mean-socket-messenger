@@ -4,8 +4,9 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o",
-    "start:server": "nodemon -r dotenv/config server/index.js",
+    "start": "ng serve",
+    "start:open": "ng serve -0",
+    "server": "nodemon -r dotenv/config server/index.js",
     "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
