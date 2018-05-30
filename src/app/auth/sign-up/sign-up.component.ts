@@ -4,6 +4,7 @@ import { AuthService } from '../../shared/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormValidationService } from '../../shared/form-validation/form-validation.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up',
@@ -18,7 +19,8 @@ export class SignUpComponent implements OnInit {
     private auth: AuthService,
     private toastr: ToastrService,
     private fb: FormBuilder,
-    private formValidation: FormValidationService,
+    private validate: FormValidationService,
+    private router: Router,
   ) {
   }
 
@@ -33,7 +35,9 @@ export class SignUpComponent implements OnInit {
 
     this.auth.signUp(this.form.value)
       .subscribe(
-        null,
+        () => {
+          this.router.navigateByUrl('/');
+        },
         ({ error }: HttpErrorResponse) => {
           for (const e of error) {
             this.toastr.error(e.message);
@@ -45,11 +49,11 @@ export class SignUpComponent implements OnInit {
   private buildForm() {
     this.form = this.fb.group({
       name: this.fb.group({
-        first: [null, this.formValidation.userName()],
-        last: [null, this.formValidation.userName()],
+        first: [null, this.validate.userName()],
+        last: [null, this.validate.userName()],
       }),
-      email: [null, this.formValidation.email()],
-      password: [null, this.formValidation.password()],
+      email: [null, this.validate.email()],
+      password: [null, this.validate.password()],
     });
   }
 

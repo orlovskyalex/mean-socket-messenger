@@ -5,12 +5,12 @@ The project is under active development. At the current stage you're able to cha
 ## Features
 
 * You have to sign up to use this messenger. Note that your passwords are never stored in raw but get encrypted with [crypto sha-512]
-* After that you receive a token that lives 7 days
+* Your access token lives 7 days
 
 ## Todo
 
 - [x] Implement signing in
-- [ ] Automatically delete a token after it got expired
+- [x] Automatically delete a token after it got expired
 - [ ] Finish these feature and todo lists
 
 ## To run the project

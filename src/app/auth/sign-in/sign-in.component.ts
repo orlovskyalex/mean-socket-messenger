@@ -4,6 +4,7 @@ import { FormValidationService } from '../../shared/form-validation/form-validat
 import { AuthService } from '../../shared/auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
@@ -19,6 +20,7 @@ export class SignInComponent implements OnInit {
     private validate: FormValidationService,
     private auth: AuthService,
     private toastr: ToastrService,
+    private router: Router,
   ) {
   }
 
@@ -27,14 +29,15 @@ export class SignInComponent implements OnInit {
   }
 
   signIn() {
-    console.log(this.form.value);
     if (this.form.invalid) {
       return;
     }
 
     this.auth.signIn(this.form.value)
       .subscribe(
-        null,
+        () => {
+          this.router.navigateByUrl('/');
+        },
         ({ error }: HttpErrorResponse) => {
           for (const e of error) {
             this.toastr.error(e.message);

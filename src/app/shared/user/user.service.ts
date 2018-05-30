@@ -3,8 +3,9 @@ import { User } from './user.model';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
-import { TokenInfo } from '../token/token-info.interface';
 import { UserResponse } from './user-response.interface';
+import { Observable } from 'rxjs/Observable';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -20,32 +21,35 @@ export class UserService {
     this.watchToken();
   }
 
-  getUser(userId: string): void {
-    this.http.get(`${this.baseUrl}/${userId}`)
-      .subscribe(({ user }: UserResponse) => {
-        this.user$.next(new User(user));
-      });
+  getUserById(userId: string): Observable<User> {
+    return this.http.get(`${this.baseUrl}/${userId}`)
+      .pipe(
+        map(({ user }: UserResponse) => {
+          return new User(user);
+        }),
+      );
   }
 
   private watchToken(): void {
     this.auth.token$.subscribe((token: string) => {
-      this.parseAndSaveUser(token);
+      this.parseUserFromToken(token);
     });
   }
 
-  private parseAndSaveUser(token?: string): void {
+  private parseUserFromToken(token: string): void {
     if (token) {
-      const payload = window.atob(token.split('.')[1]);
-      const tokenInfo = JSON.parse(payload) as TokenInfo;
-
-      this.getUser(tokenInfo.userId);
+      const tokenInfo = this.auth.getTokenInfo(token);
+      this.getUserById(tokenInfo.userId)
+        .subscribe(user => {
+          this.user = user;
+        });
     } else {
-      this.clearUser();
+      this.user = null;
     }
   }
 
-  private clearUser() {
-    this.user$.next(null);
+  private set user(value: User | null) {
+    this.user$.next(value);
   }
 
 }

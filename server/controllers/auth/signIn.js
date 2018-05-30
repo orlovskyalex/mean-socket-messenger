@@ -1,7 +1,7 @@
 const passport = require('passport');
 const response = require('../../utils/response');
 
-const login = (req, res) => {
+const signIn = (req, res) => {
   const send = response(res);
 
   try {
@@ -19,9 +19,9 @@ const login = (req, res) => {
       send.json({ token: user.generateJwt() });
     })(req, res);
   } catch ({ message }) {
-    console.log('login error:', message);
+    console.log('signIn error:', message);
     send.error(message);
   }
 };
 
-module.exports = login;
+module.exports = signIn;

@@ -25,7 +25,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     this.subscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        this.parseFormType(event.url);
+        this.parseFormType(event.urlAfterRedirects);
       }
     });
   }
