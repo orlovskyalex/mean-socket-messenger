@@ -1,27 +1,36 @@
-# MeanChat
+# MEAN Socket Messenger
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
+The project is under active development. At the current stage you're able to chat only with local users on your machine (e.g. using different browsers or an incognito mode) and with all of them at once, there are no one-to-one chats yet. The main feature is yet to implement. See additional info below.
 
-## Development server
+## Features
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* You have to sign up to use this messenger. Note that your passwords are never stored in raw but get encrypted with [crypto sha-512]
+* After that you receive a token that lives 7 days
 
-## Code scaffolding
+## Todo
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- [ ] Implement signing in
+- [ ] Automatically delete a token after it got expired
+- [ ] Finish these feature and todo lists
 
-## Build
+## To run the project
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+1. Clone this repository
+1. `npm install`
+1. Meanwhile, create a `.env` file in the root directory, with following content:
+   ```text
+   PORT=4201
+   JWT_SECRET_KEY=<any random string here>
+   ```
+1. Run `mongod` process (you need [MongoDB][install mongodb] installed)
+1. `npm run server`
+1. `npm start` and navigate to `http://localhost:4200`, or just use a `npm run start:open` command
 
-## Running unit tests
+### Questions? [Ask them!](mailto:alex94orlovsky@gmail.com)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+##### This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.7.4.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+[crypto sha-512]: https://nodejs.org/api/crypto.html#crypto_crypto_pbkdf2sync_password_salt_iterations_keylen_digest
+[install mongodb]: https://docs.mongodb.com/manual/installation/

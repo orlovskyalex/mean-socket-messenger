@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -9,7 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
-import { API_URL } from '../../constants';
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -26,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
     if (request.url.startsWith('http') || request.url.startsWith('/assets')) {
       url = request.url;
     } else {
-      url = `${API_URL}${request.url}`;
+      url = `${environment.API_URL}${request.url}`;
     }
 
     request = request.clone({

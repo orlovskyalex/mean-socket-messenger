@@ -7,7 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-import { SOCKET_URL } from './constants';
+import { environment } from '../environments/environment';
 import { CoreModule } from './core/core.module';
 import { AuthModule } from './auth/auth.module';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +18,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
-const socketConfig: SocketIoConfig = { url: SOCKET_URL };
+const socketConfig: SocketIoConfig = { url: environment.SOCKET_URL };
 
 @NgModule({
   declarations: [
