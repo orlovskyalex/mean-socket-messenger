@@ -5,8 +5,6 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { TokenInfo } from '../token/token-info.interface';
 import { UserResponse } from './user-response.interface';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UserService {
@@ -22,19 +20,11 @@ export class UserService {
     this.watchToken();
   }
 
-  getUser(userId: string): Observable<UserResponse> {
-    return this.http.get(`${this.baseUrl}/${userId}`)
-      .pipe(
-        map((data: UserResponse) => {
-          if (data.user) {
-            this.user$.next(new User(data.user));
-          } else {
-            this.clearUser();
-          }
-
-          return data;
-        }),
-      );
+  getUser(userId: string): void {
+    this.http.get(`${this.baseUrl}/${userId}`)
+      .subscribe(({ user }: UserResponse) => {
+        this.user$.next(new User(user));
+      });
   }
 
   private watchToken(): void {
