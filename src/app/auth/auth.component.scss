@@ -1,0 +1,40 @@
+.bg-auth-grey {
+  background: #f9f9f9;
+}
+
+.auth-form-wrapper {
+  max-width: 350px;
+
+  %auth-form-frame {
+    border: 1px solid #d8dee2;
+    border-radius: 5px;
+    padding: 20px;
+  }
+
+  ::ng-deep {
+    .auth-form {
+      @extend %auth-form-frame;
+      background: #fff;
+
+      label {
+        font-weight: bold;
+      }
+
+      .btn-success {
+        background: #269f42 linear-gradient(to bottom, #2fcb53 0%, #269f42 90%) -0.5em;
+        font-weight: bold;
+        width: 100%;
+      }
+    }
+
+    .auth-form-switch {
+      @extend %auth-form-frame;
+      margin-top: 1rem;
+      text-align: center;
+
+      .auth-link-wrap {
+        display: inline-flex;
+      }
+    }
+  }
+}

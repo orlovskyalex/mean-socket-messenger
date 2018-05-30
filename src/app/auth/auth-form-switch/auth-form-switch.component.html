@@ -1,0 +1,11 @@
+<div class="auth-form-switch">
+  <span>
+    {{ 'FORMS.' + formType + '.SWITCH' | translate }}
+  </span>
+  <span class="auth-link-wrap">
+    <a routerLink="/auth/{{ linksMap[formType] }}">
+      {{ 'FORMS.' + formType + '.SWITCH_LINK' | translate }}
+    </a>
+    <span>.</span>
+  </span>
+</div>

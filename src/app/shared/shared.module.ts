@@ -10,11 +10,13 @@ import { RouterModule } from '@angular/router';
 import { RegexService } from './regex/regex.service';
 import { FormValidationService } from './form-validation/form-validation.service';
 import { UserService } from './user/user.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    TranslateModule,
   ],
   providers: [
     AuthService,

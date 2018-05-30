@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { AuthService } from '../../shared/auth/auth.service';
-import { ToastrService } from 'ngx-toastr';
 import { FormValidationService } from '../../shared/form-validation/form-validation.service';
+import { AuthService } from '../../shared/auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-sign-up',
-  templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.scss'],
+  selector: 'app-sign-in',
+  templateUrl: './sign-in.component.html',
+  styleUrls: ['./sign-in.component.scss'],
 })
-export class SignUpComponent implements OnInit {
+export class SignInComponent implements OnInit {
 
   form: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
+    private validate: FormValidationService,
     private auth: AuthService,
     private toastr: ToastrService,
-    private fb: FormBuilder,
-    private formValidation: FormValidationService,
   ) {
   }
 
@@ -26,12 +26,13 @@ export class SignUpComponent implements OnInit {
     this.buildForm();
   }
 
-  signUp() {
+  signIn() {
+    console.log(this.form.value);
     if (this.form.invalid) {
       return;
     }
 
-    this.auth.signUp(this.form.value)
+    this.auth.signIn(this.form.value)
       .subscribe(
         null,
         ({ error }: HttpErrorResponse) => {
@@ -44,12 +45,8 @@ export class SignUpComponent implements OnInit {
 
   private buildForm() {
     this.form = this.fb.group({
-      name: this.fb.group({
-        first: [null, this.formValidation.userName()],
-        last: [null, this.formValidation.userName()],
-      }),
-      email: [null, this.formValidation.email()],
-      password: [null, this.formValidation.password()],
+      email: [null, this.validate.email()],
+      password: [null, this.validate.password()],
     });
   }
 

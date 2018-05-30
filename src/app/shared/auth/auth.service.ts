@@ -29,7 +29,7 @@ export class AuthService {
     return this.request('sign-up', user);
   }
 
-  login(user: TokenPayload): Observable<any> {
+  signIn(user: TokenPayload): Observable<any> {
     return this.request('login', user);
   }
 

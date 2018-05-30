@@ -9,12 +9,31 @@
     "SEND": "Send",
     "ENTER_MESSAGE": "Enter message..."
   },
-  "SIGN_UP": {
-    "FIRST_NAME": "First name",
-    "LAST_NAME": "Last name",
-    "EMAIL": "Email",
-    "PASSWORD": "Password",
-    "PASSWORD_HINT": "Use at least one small letter, one big letter, one numeral, and from seven up to eighteen characters. Do not use spaces or emoji.",
-    "SUBMIT": "Sign up"
+  "FORMS": {
+    "COMMON": {
+      "EMAIL": "Email",
+      "PASSWORD": "Password"
+    },
+    "SIGN_UP": {
+      "FIRST_NAME": "First name",
+      "LAST_NAME": "Last name",
+      "PASSWORD_HINT": "Use at least one small letter, one big letter, one numeral, and from seven up to eighteen characters. Do not use spaces or emoji.",
+      "SUBMIT": "Sign up",
+      "SWITCH": "Already have an account?",
+      "SWITCH_LINK": "Sign in"
+    },
+    "SIGN_IN": {
+      "SUBMIT": "Sign in",
+      "SWITCH": "Doesn't have an account?",
+      "SWITCH_LINK": "Create one"
+    }
+  },
+  "COMMON": {
+    "OR": "Or"
+  },
+  "HEADER": {
+    "SIGN_IN": "Sign in",
+    "SIGN_UP": "Sign up",
+    "SIGN_OUT": "Sign out"
   }
 }

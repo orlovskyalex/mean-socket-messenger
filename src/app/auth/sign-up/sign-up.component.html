@@ -1,44 +1,40 @@
-<div class="page-content">
-  <div class="container">
-    <form [formGroup]="form" class="col-md-6 offset-md-3" (submit)="signUp()">
-      <div formGroupName="name">
-        <div class="form-group">
-          <label for="firstName">
-            {{ 'SIGN_UP.FIRST_NAME' | translate }}
-          </label>
-          <input type="text" class="form-control" id="firstName" formControlName="first" autofocus>
-        </div>
-        <div class="form-group">
-          <label for="lastName">
-            {{ 'SIGN_UP.LAST_NAME' | translate }}
-          </label>
-          <input type="text" class="form-control" id="lastName" formControlName="last">
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="email">
-          {{ 'SIGN_UP.EMAIL' | translate }}
-        </label>
-        <input type="email" class="form-control" id="email" formControlName="email">
-      </div>
-      <div class="form-group">
-        <label for="password">
-          {{ 'SIGN_UP.PASSWORD' | translate }}
-        </label>
-        <input
-          type="password"
-          class="form-control"
-          id="password"
-          aria-describedby="passwordHint"
-          formControlName="password"
-        >
-        <small id="passwordHint" class="form-text text-muted">
-          {{ 'SIGN_UP.PASSWORD_HINT' | translate }}
-        </small>
-      </div>
-      <button type="submit" class="btn btn-success" [disabled]="form.invalid">
-        {{ 'SIGN_UP.SUBMIT' | translate }}
-      </button>
-    </form>
+<form [formGroup]="form" class="auth-form" (submit)="signUp()">
+  <div formGroupName="name">
+    <div class="form-group">
+      <label for="firstName">
+        {{ 'FORMS.SIGN_UP.FIRST_NAME' | translate }}
+      </label>
+      <input type="text" class="form-control" id="firstName" formControlName="first" autofocus>
+    </div>
+    <div class="form-group">
+      <label for="lastName">
+        {{ 'FORMS.SIGN_UP.LAST_NAME' | translate }}
+      </label>
+      <input type="text" class="form-control" id="lastName" formControlName="last">
+    </div>
   </div>
-</div>
+  <div class="form-group">
+    <label for="email">
+      {{ 'FORMS.COMMON.EMAIL' | translate }}
+    </label>
+    <input type="email" class="form-control" id="email" formControlName="email">
+  </div>
+  <div class="form-group">
+    <label for="password">
+      {{ 'FORMS.COMMON.PASSWORD' | translate }}
+    </label>
+    <input
+      type="password"
+      class="form-control"
+      id="password"
+      aria-describedby="passwordHint"
+      formControlName="password"
+    >
+    <small id="passwordHint" class="form-text text-muted">
+      {{ 'FORMS.SIGN_UP.PASSWORD_HINT' | translate }}
+    </small>
+  </div>
+  <button type="submit" class="btn btn-success" [disabled]="form.invalid">
+    {{ 'FORMS.SIGN_UP.SUBMIT' | translate }}
+  </button>
+</form>

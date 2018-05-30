@@ -6,6 +6,8 @@ import { singleLineRegExp } from '../utils/singleLineRegExp.tag';
 export class RegexService {
 
   private nameRegex = /^([a-zA-Z]{2,})$/;
+  private emojiRegex = emojiRegex();
+  private lastRouteRegex = /^.*\/(.*)$/;
 
   // RFC 2822 compliant regex
   private emailRegex = new RegExp(singleLineRegExp`
@@ -16,8 +18,6 @@ export class RegexService {
   // at least one small letter, one big letter, one numeral, seven characters
   // no whitespaces or emoji
   private passwordRegex = /^(?!.*[\s])(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{7,}$/;
-
-  private emojiRegex = emojiRegex();
 
   get name(): RegExp {
     return this.nameRegex;
@@ -33,6 +33,10 @@ export class RegexService {
 
   get emoji(): RegExp {
     return this.emojiRegex;
+  }
+
+  get lastRoute(): RegExp {
+    return this.lastRouteRegex;
   }
 
 }

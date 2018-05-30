@@ -9,7 +9,7 @@ The project is under active development. At the current stage you're able to cha
 
 ## Todo
 
-- [ ] Implement signing in
+- [x] Implement signing in
 - [ ] Automatically delete a token after it got expired
 - [ ] Finish these feature and todo lists
 

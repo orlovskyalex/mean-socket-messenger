@@ -6,6 +6,8 @@ import { SignUpComponent } from './sign-up/sign-up.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { AuthFormSwitchComponent } from './auth-form-switch/auth-form-switch.component';
 
 @NgModule({
   imports: [
@@ -18,6 +20,8 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [
     AuthComponent,
     SignUpComponent,
+    SignInComponent,
+    AuthFormSwitchComponent,
   ],
 })
 export class AuthModule {
