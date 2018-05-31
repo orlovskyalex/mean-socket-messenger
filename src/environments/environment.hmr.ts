@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  hmr: false,
+  hmr: true,
   API_URL: 'http://localhost:4201/api',
   SOCKET_URL: 'http://localhost:4201',
 };
