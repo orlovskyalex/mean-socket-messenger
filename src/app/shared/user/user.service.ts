@@ -15,9 +15,6 @@ export class UserService {
   private baseUrl = '/user';
 
   constructor(private http: HttpClient, private auth: AuthService) {
-  }
-
-  init(): void {
     this.watchToken();
   }
 

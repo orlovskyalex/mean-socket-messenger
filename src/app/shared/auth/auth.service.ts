@@ -17,9 +17,6 @@ export class AuthService {
   private timerId: number;
 
   constructor(private http: HttpClient, private router: Router) {
-  }
-
-  init(): void {
     this.getToken();
   }
 
