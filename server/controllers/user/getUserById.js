@@ -1,7 +1,7 @@
 const User = require('mongoose').model('User');
 const response = require('../../utils/response');
 
-const getUser = (req, res) => {
+const getUserById = (req, res) => {
   const send = response(res);
 
   try {
@@ -21,9 +21,9 @@ const getUser = (req, res) => {
         });
     }
   } catch ({ message }) {
-    console.log('getUser error:', message);
+    console.log('getUserById error:', message);
     send.error(message);
   }
 };
 
-module.exports = getUser;
+module.exports = getUserById;
