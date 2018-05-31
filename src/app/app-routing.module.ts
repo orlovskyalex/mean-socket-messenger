@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthModule } from './auth/auth.module';
 import { CoreModule } from './core/core.module';
 import { GuestGuard } from './shared/auth/guest.guard';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {
@@ -15,8 +16,12 @@ const routes: Routes = [
     loadChildren: () => CoreModule,
   },
   {
+    path: '404',
+    component: PageNotFoundComponent,
+  },
+  {
     path: '**',
-    redirectTo: '',
+    redirectTo: '404',
   },
 ];
 

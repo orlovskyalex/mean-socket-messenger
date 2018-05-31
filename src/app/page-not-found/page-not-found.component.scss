@@ -1,0 +1,24 @@
+.page-404 {
+  align-items: center;
+  background: black url("/assets/images/404-cat.jpg") center / cover no-repeat;
+  color: #fff;
+  display: flex;
+  height: 100vh;
+  padding: 1% 5%;
+  position: relative;
+  width: 100vw;
+
+  .message {
+    font: 5.4vmax / 1.5 Creepster, cursive;
+    max-width: 55%;
+  }
+
+  .home-link {
+    bottom: 20px;
+    color: #fff;
+    font: bold 20px Roboto, sans-serif;
+    max-width: 200px;
+    position: absolute;
+    right: 40px;
+  }
+}
