@@ -27,7 +27,7 @@ const socketConfig: SocketIoConfig = { url: environment.SOCKET_URL };
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SharedModule,
+    SharedModule.forRoot(),
     FormsModule,
     HttpClientModule,
     SocketIoModule.forRoot(socketConfig),

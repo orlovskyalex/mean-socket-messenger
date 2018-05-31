@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './auth/auth.service';
 import { MessageService } from './message/message.service';
@@ -19,20 +19,6 @@ import { GuestGuard } from './auth/guest.guard';
     RouterModule,
     TranslateModule,
   ],
-  providers: [
-    AuthService,
-    MessageService,
-    AuthGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
-    FormValidationService,
-    RegexService,
-    UserService,
-    GuestGuard,
-  ],
   declarations: [
     HeaderComponent,
   ],
@@ -41,4 +27,25 @@ import { GuestGuard } from './auth/guest.guard';
   ],
 })
 export class SharedModule {
+
+  static forRoot(): ModuleWithProviders {
+    return {
+      ngModule: SharedModule,
+      providers: [
+        AuthService,
+        MessageService,
+        AuthGuard,
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: AuthInterceptor,
+          multi: true,
+        },
+        FormValidationService,
+        RegexService,
+        UserService,
+        GuestGuard,
+      ],
+    };
+  }
+
 }

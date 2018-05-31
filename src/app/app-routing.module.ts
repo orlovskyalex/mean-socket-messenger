@@ -12,12 +12,17 @@ const routes: Routes = [
     canActivateChild: [GuestGuard],
   },
   {
-    path: '',
+    path: 'messages',
     loadChildren: () => CoreModule,
   },
   {
     path: '404',
     component: PageNotFoundComponent,
+  },
+  {
+    path: '',
+    redirectTo: 'messages',
+    pathMatch: 'full',
   },
   {
     path: '**',
