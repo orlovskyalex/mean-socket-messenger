@@ -24,7 +24,7 @@ The project is under active development. At the current stage you're able to cha
    ```
 1. Run `mongod` process (you need [MongoDB][install mongodb] installed)
 1. `npm run server`
-1. `npm start` and navigate to `http://localhost:4200`, or just use a `npm run start:open` command
+1. `npm start` and navigate to `http://localhost:4200`, or just use an `npm start -- -o` command
 
 ### Questions? [Ask them!](mailto:alex94orlovsky@gmail.com)
 
