@@ -8,8 +8,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 import { environment } from '../environments/environment';
-import { CoreModule } from './core/core.module';
-import { AuthModule } from './auth/auth.module';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -38,8 +36,6 @@ const socketConfig: SocketIoConfig = { url: environment.SOCKET_URL };
         deps: [HttpClient],
       },
     }),
-    CoreModule,
-    AuthModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
   ],

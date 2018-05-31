@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthComponent } from './auth.component';
-import { RouterModule } from '@angular/router';
+import { AuthRoutingModule } from './auth-routing.module';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ import { AuthFormSwitchComponent } from './auth-form-switch/auth-form-switch.com
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule,
+    AuthRoutingModule,
     ReactiveFormsModule,
     TranslateModule,
     SharedModule,

@@ -1,20 +1,18 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { coreRoutes } from './core/core-routing';
-import { CoreComponent } from './core/core.component';
-import { authRoutes } from './auth/auth-routing';
-import { AuthComponent } from './auth/auth.component';
+import { AuthModule } from './auth/auth.module';
+import { CoreModule } from './core/core.module';
+import { GuestGuard } from './shared/auth/guest.guard';
 
 const routes: Routes = [
   {
     path: 'auth',
-    component: AuthComponent,
-    children: authRoutes,
+    loadChildren: () => AuthModule,
+    canActivateChild: [GuestGuard],
   },
   {
     path: '',
-    component: CoreComponent,
-    children: coreRoutes,
+    loadChildren: () => CoreModule,
   },
   {
     path: '**',
