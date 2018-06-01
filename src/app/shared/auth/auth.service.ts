@@ -34,6 +34,7 @@ export class AuthService {
 
   signOut(): void {
     this.token = '';
+    this.router.navigateByUrl('/auth');
   }
 
   get isLoggedIn(): boolean {
@@ -61,7 +62,6 @@ export class AuthService {
     } else {
       this.token$.next('');
       localStorage.removeItem('mean-chat-token');
-      //this.router.navigateByUrl('/auth');
     }
   }
 
