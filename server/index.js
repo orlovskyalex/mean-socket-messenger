@@ -16,8 +16,12 @@ http.listen(port, () => {
 });
 
 io.on('connection', socket => {
-  socket.on('message', message => {
-    socket.broadcast.emit('message', message);
+  socket.on('join room', userId => {
+    socket.join(userId);
+  });
+
+  socket.on('new message', message => {
+    socket.broadcast.to(message.recipientId).emit('new message', message);
   });
 });
 

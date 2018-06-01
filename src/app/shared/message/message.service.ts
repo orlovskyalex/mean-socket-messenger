@@ -9,25 +9,35 @@ export class MessageService {
   messages$ = new BehaviorSubject<MessageModel[]>([]);
 
   constructor(private socket: Socket) {
-    this.watchForNewMessages();
   }
 
-  watchForNewMessages() {
-    this.socket.on('message', message => {
-      this.addNewMessage(message);
+  listenForMessagesFrom(senderId: string) {
+    this.socket.on('new message', message => {
+      if (message.senderId === senderId) {
+        this.pushNewMessage(message);
+      }
     });
   }
 
-  sendMessage(message) {
-    this.socket.emit('message', message);
-    this.addNewMessage(message);
+  sendMessage(message: MessageModel) {
+    this.socket.emit('new message', message);
+    this.pushNewMessage(message);
   }
 
-  addNewMessage(message) {
-    this.messages$.next([
-      ...this.messages$.getValue(),
-      new MessageModel(message),
-    ]);
+  clear() {
+    this.messages = [];
+  }
+
+  private get messages(): MessageModel[] {
+    return this.messages$.getValue();
+  }
+
+  private set messages(messages: MessageModel[]) {
+    this.messages$.next(messages);
+  }
+
+  private pushNewMessage(message: MessageModel) {
+    this.messages = [...this.messages, new MessageModel(message)];
   }
 
 }

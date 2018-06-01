@@ -1,5 +1,5 @@
-<div class="container d-flex flex-column">
-  <div *ngIf="messages?.length">
+<div class="container d-flex flex-column" *ngIf="user$ | async">
+  <div *ngIf="messages$ | async as messages">
     <div class="message-wrapper" *ngFor="let message of messages; let i = index">
       <div [ngClass]="getMessageClasses(message, i)">
         {{ message.text }}
@@ -18,7 +18,7 @@
         autofocus
         required
       >
-      <button class="btn btn-link" type="submit" [disabled]="!chatForm.valid || !currentUserId">
+      <button class="btn btn-link" type="submit" [disabled]="!chatForm.valid">
         {{ 'CHAT.SEND' | translate }}
       </button>
     </div>

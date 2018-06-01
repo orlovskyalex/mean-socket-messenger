@@ -12,6 +12,7 @@ import { FormValidationService } from './form-validation/form-validation.service
 import { UserService } from './user/user.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { GuestGuard } from './auth/guest.guard';
+import { SocketService } from './socket/socket.service';
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ export class SharedModule {
         RegexService,
         UserService,
         GuestGuard,
+        SocketService,
       ],
     };
   }

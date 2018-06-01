@@ -1,13 +1,13 @@
-import { get } from 'lodash';
-
 export class MessageModel {
 
-  senderId?: string;
-  text?: string;
+  senderId: string;
+  recipientId: string;
+  text: string;
 
-  constructor(params?: MessageModel) {
-    this.senderId = get(params, 'senderId', '');
-    this.text = get(params, 'text', '');
+  constructor({ senderId, recipientId, text }: MessageModel) {
+    this.senderId = senderId;
+    this.recipientId = recipientId;
+    this.text = text;
   }
 
 }
