@@ -6,6 +6,7 @@ import { CoreRoutingModule } from './core-routing.module';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { SharedModule } from '../shared/shared.module';
   declarations: [
     CoreComponent,
     ChatComponent,
+    UserListComponent,
   ],
 })
 export class CoreModule {

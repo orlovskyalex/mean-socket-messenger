@@ -7,6 +7,7 @@ import { UserResponse } from './user-response.interface';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
 import { SocketService } from '../socket/socket.service';
+import { UserListResponse } from './user-list-response.interface';
 
 @Injectable()
 export class UserService {
@@ -32,6 +33,19 @@ export class UserService {
       );
   }
 
+  getUserList(exceptCurrentUser = true): Observable<User[]> {
+    return this.http.get(this.baseUrl)
+      .pipe(
+        map(({ users }: UserListResponse) => {
+          if (exceptCurrentUser) {
+            users = users.filter(user => user._id !== this.user._id);
+          }
+
+          return users.map(user => new User(user));
+        }),
+      );
+  }
+
   private watchToken(): void {
     this.auth.token$.subscribe((token: string) => {
       this.parseUserFromToken(token);
@@ -48,6 +62,10 @@ export class UserService {
     } else {
       this.user = null;
     }
+  }
+
+  private get user(): User {
+    return this.user$.getValue();
   }
 
   private set user(user: User | null) {

@@ -1,17 +1,21 @@
 # MEAN Socket Messenger
 
-The project is under active development. At the current stage you're able to chat only with local users on your machine (e.g. using different browsers or an incognito mode) and with all of them at once, there are no one-to-one chats yet. The main feature is yet to implement. See additional info below.
+The project is under active development. At the current stage you're able to chat only with local users on your machine (e.g. using different browsers or an incognito mode). See additional info below.
 
 ## Features
 
 * You have to sign up to use this messenger. Note that your passwords are never stored in raw but get encrypted with [crypto sha-512]
 * Your access token lives 7 days
+* On the main page you can see a list of all users
+* Choose one of them to start chatting
 
 ## Todo
 
-- [x] Implement signing in
-- [x] Automatically delete a token after it got expired
-- [ ] Finish these feature and todo lists
+* Save message history to MongoDB
+* Load message history for opened chat
+* Implement normal design (don't read it as "beautiful")
+* Load messages that have been sent while you where offline
+* Push notifications on new messages
 
 ## To run the project
 

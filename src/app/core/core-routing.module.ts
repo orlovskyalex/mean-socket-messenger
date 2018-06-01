@@ -3,6 +3,7 @@ import { ChatComponent } from './chat/chat.component';
 import { AuthGuard } from '../shared/auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { CoreComponent } from './core.component';
+import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,11 @@ const routes: Routes = [
       {
         path: ':recipientId',
         component: ChatComponent,
+      },
+      {
+        path: '',
+        component: UserListComponent,
+        pathMatch: 'full',
       },
     ],
   },
