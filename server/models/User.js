@@ -45,8 +45,4 @@ userSchema.methods.generateJwt = function () {
   }, process.env.JWT_SECRET_KEY);
 };
 
-userSchema.virtual('fullName').get(function () {
-  return `${this.name.first} ${this.name.last}`;
-});
-
 mongoose.model('User', userSchema);
