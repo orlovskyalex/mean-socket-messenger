@@ -1,21 +1,20 @@
 # MEAN Socket Messenger
 
-The project is under active development. At the current stage you're able to chat only with local users on your machine (e.g. using different browsers or an incognito mode). See additional info below.
+The project is under active development. At the current stage you can use different browsers or an incognito mode to test this messenger.
 
-## Features
-
-* You have to sign up to use this messenger. Note that your passwords are never stored in raw but get encrypted with [crypto sha-512]
-* Your access token lives 7 days
-* On the main page you can see a list of all users
-* Choose one of them to start chatting
+See additional info below.
 
 ## Todo
 
-* Save message history to MongoDB
+* Implement usable design
 * Load message history for opened chat
-* Implement normal design (don't read it as "beautiful")
 * Load messages that have been sent while you where offline
 * Push notifications on new messages
+
+## Some tech info
+
+* Your passwords are never stored in raw but get encrypted with [crypto sha-512]
+* Access token lives 7 days
 
 ## To run the project
 
@@ -28,7 +27,7 @@ The project is under active development. At the current stage you're able to cha
    ```
 1. Run `mongod` process (you need [MongoDB][install mongodb] installed)
 1. `npm run server`
-1. `npm start` and navigate to `http://localhost:4200`, or just use an `npm start -- -o` command
+1. `npm start` and navigate to http://localhost:4200, or just use the `npm start -- -o` command
 
 ### Questions? [Ask them!](mailto:alex94orlovsky@gmail.com)
 
