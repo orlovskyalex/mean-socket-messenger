@@ -14,7 +14,7 @@ export class UserService {
 
   user$ = new BehaviorSubject<User>(null);
 
-  private baseUrl = '/user';
+  private baseUrl = '/users';
 
   constructor(
     private http: HttpClient,
