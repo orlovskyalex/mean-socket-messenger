@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MessageModel } from './message.model';
-import { Socket } from 'ng-socket-io';
+import { SocketService } from '../socket/socket.service';
+import { MessagePayload } from './message-payload.interface';
 
 @Injectable()
 export class MessageService {
 
   messages$ = new BehaviorSubject<MessageModel[]>([]);
 
-  constructor(private socket: Socket) {
+  constructor(private socket: SocketService) {
   }
 
-  listenForMessagesFrom(senderId: string) {
-    this.socket.on('new message', message => {
-      if (message.senderId === senderId) {
+  listenForMessagesFrom(userId: string) {
+    this.socket.socket.on('new message', (message: MessageModel) => {
+      if (message.sender._id === userId || message.recipient._id === userId) {
         this.pushNewMessage(message);
       }
     });
   }
 
-  sendMessage(message: MessageModel) {
-    this.socket.emit('new message', message);
-    this.pushNewMessage(message);
+  send(message: MessagePayload) {
+    this.socket.socket.emit('new message', message);
   }
 
   clear() {

@@ -10,19 +10,10 @@ const port = process.env.PORT;
 
 require('./config/db');
 require('./config/passport');
+require('./config/socket').init(io);
 
 http.listen(port, () => {
   console.log(`Server started on port ${port}`);
-});
-
-io.on('connection', socket => {
-  socket.on('join room', userId => {
-    socket.join(userId);
-  });
-
-  socket.on('new message', message => {
-    socket.broadcast.to(message.recipientId).emit('new message', message);
-  });
 });
 
 app.use(passport.initialize());

@@ -4,6 +4,7 @@ import { MessageModel } from '../../shared/message/message.model';
 import { MessageService } from '../../shared/message/message.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
+import { MessagePayload } from '../../shared/message/message-payload.interface';
 
 @Component({
   selector: 'app-chat',
@@ -46,7 +47,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   getMessageClasses(message: MessageModel, index: number): string {
     const classes = ['message'];
 
-    const { recipientId } = message;
+    const recipientId = message.recipient._id;
     const currentUserMessage = recipientId !== this.userId;
 
     const prevMessage = index === 0 ? null : this.messages[index - 1];
@@ -57,7 +58,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     if (prevMessage) {
-      if (recipientId !== prevMessage.recipientId) { // if first message in group
+      if (recipientId !== prevMessage.recipient._id) { // if first message in group
         classes.push('msg-mt'); // add margin-top
       } else { // else
         classes.push(`msg-${currentUserMessage ? 'tr' : 'tl'}`); // remove top radius
@@ -65,7 +66,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     if (nextMessage) {
-      if (recipientId === nextMessage.recipientId) { // if not last message in group
+      if (recipientId === nextMessage.recipient._id) { // if not last message in group
         classes.push(`msg-${currentUserMessage ? 'br' : 'bl'}`); // remove bottom radius
       }
     }
@@ -78,13 +79,13 @@ export class ChatComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const message = new MessageModel({
-      text: this.newMessage,
-      recipientId: this.recipientId,
-      senderId: this.userId,
-    });
+    const message: MessagePayload = {
+      message: this.newMessage,
+      recipient: this.recipientId,
+      sender: this.userId,
+    };
 
-    this.message.sendMessage(message);
+    this.message.send(message);
     this.newMessage = '';
     form.reset();
   }

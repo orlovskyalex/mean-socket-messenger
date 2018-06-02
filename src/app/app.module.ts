@@ -6,8 +6,6 @@ import { SharedModule } from './shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
-import { environment } from '../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -16,8 +14,6 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
-
-const socketConfig: SocketIoConfig = { url: environment.SOCKET_URL };
 
 @NgModule({
   declarations: [
@@ -30,7 +26,6 @@ const socketConfig: SocketIoConfig = { url: environment.SOCKET_URL };
     SharedModule.forRoot(),
     FormsModule,
     HttpClientModule,
-    SocketIoModule.forRoot(socketConfig),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -6,7 +6,6 @@ import { AuthService } from '../auth/auth.service';
 import { UserResponse } from './user-response.interface';
 import { Observable } from 'rxjs/Observable';
 import { map } from 'rxjs/operators';
-import { SocketService } from '../socket/socket.service';
 import { UserListResponse } from './user-list-response.interface';
 
 @Injectable()
@@ -16,11 +15,7 @@ export class UserService {
 
   private baseUrl = '/users';
 
-  constructor(
-    private http: HttpClient,
-    private auth: AuthService,
-    private socket: SocketService,
-  ) {
+  constructor(private http: HttpClient, private auth: AuthService) {
     this.watchToken();
   }
 
@@ -70,12 +65,6 @@ export class UserService {
 
   private set user(user: User | null) {
     this.user$.next(user);
-
-    if (user) {
-      this.socket.connect(user._id);
-    } else {
-      this.socket.disconnect();
-    }
   }
 
 }

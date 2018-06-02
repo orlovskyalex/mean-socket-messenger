@@ -1,13 +1,17 @@
+import { User } from '../user/user.model';
+
 export class MessageModel {
 
-  senderId: string;
-  recipientId: string;
-  text: string;
+  sender: User;
+  recipient: User;
+  message: string;
+  sentAt: string;
 
-  constructor({ senderId, recipientId, text }: MessageModel) {
-    this.senderId = senderId;
-    this.recipientId = recipientId;
-    this.text = text;
+  constructor({ sender, recipient, message, sentAt }: MessageModel) {
+    this.sender = sender;
+    this.recipient = recipient;
+    this.message = message;
+    this.sentAt = sentAt;
   }
 
 }
