@@ -1,7 +1,6 @@
 const router = require('express').Router();
-const auth = require('../../middlewares/auth');
 
-router.get('/', auth, require('./getUserList'));
-router.get('/:userId', auth, require('./getUserById'));
+router.get('/', require('./getUserList'));
+router.get('/:userId', require('./getUserById'));
 
 module.exports = router;
