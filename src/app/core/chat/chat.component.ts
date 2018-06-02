@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { MessageModel } from '../../shared/message/message.model';
 import { MessageService } from '../../shared/message/message.service';
 import { ActivatedRoute } from '@angular/router';
@@ -13,13 +13,14 @@ import { MessagePayload } from '../../shared/message/message-payload.interface';
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
+  form: FormGroup;
   messages$ = this.message.messages$;
   user$ = this.user.user$;
-  newMessage = '';
 
   private recipientId: string;
 
   constructor(
+    private fb: FormBuilder,
     private message: MessageService,
     private route: ActivatedRoute,
     private user: UserService,
@@ -29,6 +30,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.recipientId = this.route.snapshot.params.recipientId;
     this.message.listenForMessagesFrom(this.recipientId);
+    this.buildForm();
   }
 
   ngOnDestroy() {
@@ -74,20 +76,29 @@ export class ChatComponent implements OnInit, OnDestroy {
     return classes.join(' ');
   }
 
-  sendMessage(form: NgForm) {
-    if (!form.valid) {
+  sendMessage() {
+    if (this.form.invalid) {
       return;
     }
 
     const message: MessagePayload = {
-      message: this.newMessage,
+      message: this.form.value.message,
       recipient: this.recipientId,
       sender: this.userId,
     };
 
     this.message.send(message);
-    this.newMessage = '';
-    form.reset();
+    this.resetForm();
+  }
+
+  private buildForm() {
+    this.form = this.fb.group({
+      message: [null, Validators.required],
+    });
+  }
+
+  private resetForm() {
+    this.form.reset();
   }
 
 }

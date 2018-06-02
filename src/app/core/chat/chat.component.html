@@ -6,19 +6,17 @@
       </div>
     </div>
   </div>
-  <form class="mt-3" #chatForm="ngForm" (submit)="sendMessage(chatForm)">
+  <form class="mt-3" [formGroup]="form" (submit)="sendMessage()">
     <div class="d-flex">
       <input
         class="form-control"
         type="text"
-        name="message"
-        [(ngModel)]="newMessage"
+        formControlName="message"
         [placeholder]="'CHAT.ENTER_MESSAGE' | translate"
         autocomplete="off"
         autofocus
-        required
       >
-      <button class="btn btn-link" type="submit" [disabled]="!chatForm.valid">
+      <button class="btn btn-link" type="submit" [disabled]="form.invalid">
         {{ 'CHAT.SEND' | translate }}
       </button>
     </div>
