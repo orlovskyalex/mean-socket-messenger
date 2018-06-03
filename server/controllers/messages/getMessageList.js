@@ -6,15 +6,23 @@ const getMessageList = async (req, res) => {
 
   try {
     const { user: { userId } } = req;
+    const { recipientId } = req.params;
 
     const messages = await Message.find({
         $or: [
-          { sender: userId },
-          { receiver: userId },
+          {
+            sender: userId,
+            recipient: recipientId,
+          },
+          {
+            sender: recipientId,
+            recipient: userId,
+          },
         ],
       })
+      .sort({ sentAt: 'asc' })
       .populate('sender', '_id name email')
-      .populate('receiver', '_id name email')
+      .populate('recipient', '_id name email')
       .exec();
 
     send.json({ messages });

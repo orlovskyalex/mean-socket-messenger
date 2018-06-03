@@ -7,8 +7,8 @@ See additional info below.
 ## Todo
 
 * Implement usable design
-* Load message history for opened chat
-* Load messages that have been sent while you where offline
+* Implement Conversation model (encapsulate messages)
+* Show unread messages
 * Push notifications on new messages
 
 ## Some tech info

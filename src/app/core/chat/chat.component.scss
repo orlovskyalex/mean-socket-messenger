@@ -1,9 +1,31 @@
 .container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 58px); // - header height
   padding: 15px;
+}
+
+.message-list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  padding: 0 15px;
 }
 
 .message-wrapper {
   display: flex;
+  flex-shrink: 0;
+  max-width: 85%;
+
+  &.own {
+    align-self: flex-end;
+    justify-content: flex-end;
+
+    .message {
+      background: #0084ff;
+      color: #fff;
+    }
+  }
 }
 
 .message {
@@ -31,11 +53,5 @@
 
   &.msg-tr {
     border-top-right-radius: 4px;
-  }
-
-  &.msg-s {
-    background: #0084ff;
-    color: #fff;
-    margin-left: auto;
   }
 }

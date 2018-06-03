@@ -3,21 +3,40 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MessageModel } from './message.model';
 import { SocketService } from '../socket/socket.service';
 import { MessagePayload } from './message-payload.interface';
+import { Observable } from 'rxjs/Observable';
+import { HttpClient } from '@angular/common/http';
+import { MessagesResponse } from './messages-response.interface';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class MessageService {
 
   messages$ = new BehaviorSubject<MessageModel[]>([]);
 
-  constructor(private socket: SocketService) {
+  private baseUrl = '/messages';
+
+  constructor(private socket: SocketService, private http: HttpClient) {
   }
 
-  listenForMessagesFrom(userId: string) {
-    this.socket.socket.on('new message', (message: MessageModel) => {
-      if (message.sender._id === userId || message.recipient._id === userId) {
-        this.pushNewMessage(message);
-      }
-    });
+  subscribe() {
+    this.socket.socket.on('new message', this.pushNewMessage);
+  }
+
+  unsubscribe() {
+    this.socket.socket.off('new message', this.pushNewMessage);
+    this.clear();
+  }
+
+  getMessagesWith(userId: string) {
+    this.http.get(`${this.baseUrl}/${userId}`)
+      .pipe(
+        map((response: MessagesResponse) => {
+          return response.messages.map(message => new MessageModel(message));
+        }),
+      )
+      .subscribe(messages => {
+        this.messages = messages;
+      });
   }
 
   send(message: MessagePayload) {
@@ -36,8 +55,8 @@ export class MessageService {
     this.messages$.next(messages);
   }
 
-  private pushNewMessage(message: MessageModel) {
+  private pushNewMessage = (message: MessageModel) => {
     this.messages = [...this.messages, new MessageModel(message)];
-  }
+  };
 
 }
