@@ -7,7 +7,6 @@ See additional info below.
 ## Todo
 
 * Implement usable design
-* Implement Conversation model (encapsulate messages)
 * Show unread messages
 * Push notifications on new messages
 

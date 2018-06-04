@@ -1,0 +1,23 @@
+<div class="container chat-container">
+  <div class="form-group row">
+    <label for="recipient" class="col-form-label col-1">
+      {{ 'NEW_CONVERSATION.TO' | translate }}
+    </label>
+    <input
+      type="text"
+      [ngClass]="['col-11', recipientId ? 'form-control-plaintext' : 'form-control']"
+      id="recipient"
+      [ngbTypeahead]="searchUser()"
+      [focusFirst]="false"
+      [inputFormatter]="userFormatter()"
+      [resultFormatter]="userFormatter()"
+      [(ngModel)]="selectedRecipient"
+      (selectItem)="selectRecipient($event)"
+      [readonly]="recipientId"
+    >
+  </div>
+
+  <div class="mt-auto" *ngIf="recipientId">
+    <app-chat-form (formSubmit)="createConversation($event)"></app-chat-form>
+  </div>
+</div>

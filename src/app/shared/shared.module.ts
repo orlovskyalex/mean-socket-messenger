@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './auth/auth.service';
-import { MessageService } from './message/message.service';
+import { ChatService } from './chat/chat.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
@@ -34,7 +34,7 @@ export class SharedModule {
       ngModule: SharedModule,
       providers: [
         AuthService,
-        MessageService,
+        ChatService,
         AuthGuard,
         {
           provide: HTTP_INTERCEPTORS,

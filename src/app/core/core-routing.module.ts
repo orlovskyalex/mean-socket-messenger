@@ -3,7 +3,8 @@ import { ChatComponent } from './chat/chat.component';
 import { AuthGuard } from '../shared/auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { CoreComponent } from './core.component';
-import { UserListComponent } from './user-list/user-list.component';
+import { NewConversationComponent } from './new-conversation/new-conversation.component';
+import { AllConversationsComponent } from './all-conversations/all-conversations.component';
 
 const routes: Routes = [
   {
@@ -12,13 +13,25 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       {
-        path: ':recipientId',
+        path: '',
+        component: AllConversationsComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'new',
+        component: NewConversationComponent,
+      },
+      {
+        path: 'new/:recipientId',
+        component: NewConversationComponent,
+      },
+      {
+        path: ':conversationId',
         component: ChatComponent,
       },
       {
-        path: '',
-        component: UserListComponent,
-        pathMatch: 'full',
+        path: '**',
+        redirectTo: '',
       },
     ],
   },

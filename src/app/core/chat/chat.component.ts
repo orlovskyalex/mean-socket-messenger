@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageModel } from '../../shared/message/message.model';
-import { MessageService } from '../../shared/message/message.service';
+import { FormGroup } from '@angular/forms';
+import { Message } from '../../shared/chat/interfaces/message.interface';
+import { ChatService } from '../../shared/chat/chat.service';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
-import { MessagePayload } from '../../shared/message/message-payload.interface';
 
 @Component({
   selector: 'app-chat',
@@ -13,42 +12,39 @@ import { MessagePayload } from '../../shared/message/message-payload.interface';
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
-  form: FormGroup;
-  messages$ = this.message.messages$;
+  messages$ = this.chat.messages$;
   user$ = this.user.user$;
 
-  private recipientId: string;
+  private conversationId: string;
 
   constructor(
-    private fb: FormBuilder,
-    private message: MessageService,
+    private chat: ChatService,
     private route: ActivatedRoute,
     private user: UserService,
   ) {
   }
 
   ngOnInit() {
-    this.recipientId = this.route.snapshot.params.recipientId;
-    this.buildForm();
-    this.message.getMessagesWith(this.recipientId);
+    this.conversationId = this.route.snapshot.params.conversationId;
+    this.chat.enterConversation(this.conversationId);
   }
 
   ngOnDestroy() {
-    this.message.clear();
+    this.chat.leaveConversation(this.conversationId);
   }
 
-  getMessageClasses(message: MessageModel, index: number): string {
+  getMessageClasses(message: Message, index: number): string {
     const classes = [];
     const messages = this.messages;
 
-    const recipientId = message.recipient._id;
+    const authorId = message.author._id;
     const isOwnMessage = this.isOwnMessage(message);
 
     const prevMessage = index === 0 ? null : messages[index - 1];
     const nextMessage = index < messages.length - 1 ? messages[index + 1] : null;
 
     if (prevMessage) {
-      if (recipientId !== prevMessage.recipient._id) { // if first message in group
+      if (authorId !== prevMessage.author._id) { // if first message in group
         classes.push('msg-mt'); // add margin-top
       } else { // else
         classes.push(`msg-${isOwnMessage ? 'tr' : 'tl'}`); // remove top radius
@@ -56,7 +52,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     if (nextMessage) {
-      if (recipientId === nextMessage.recipient._id) { // if not last message in group
+      if (authorId === nextMessage.author._id) { // if not last message in group
         classes.push(`msg-${isOwnMessage ? 'br' : 'bl'}`); // remove bottom radius
       }
     }
@@ -64,23 +60,19 @@ export class ChatComponent implements OnInit, OnDestroy {
     return classes.join(' ');
   }
 
-  isOwnMessage(message: MessageModel): boolean {
-    return message.sender._id === this.userId;
+  isOwnMessage(message: Message): boolean {
+    return message.author._id === this.userId;
   }
 
-  sendMessage() {
-    if (this.form.invalid) {
+  sendMessage(form: FormGroup) {
+    if (form.invalid) {
       return;
     }
 
-    const message: MessagePayload = {
-      message: this.form.value.message,
-      recipient: this.recipientId,
-      sender: this.userId,
-    };
-
-    this.message.send(message);
-    this.resetForm();
+    this.chat.send(this.conversationId, form.value.message)
+      .subscribe(() => {
+        form.reset();
+      });
   }
 
   private get userId(): string {
@@ -88,18 +80,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     return user ? user._id : null;
   }
 
-  private get messages(): MessageModel[] {
+  private get messages(): Message[] {
     return this.messages$.getValue();
-  }
-
-  private buildForm() {
-    this.form = this.fb.group({
-      message: [null, Validators.required],
-    });
-  }
-
-  private resetForm() {
-    this.form.reset();
   }
 
 }

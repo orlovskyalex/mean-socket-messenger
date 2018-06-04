@@ -39,5 +39,8 @@
   "404": {
     "404": "The page you are looking for cannot be found right meow",
     "HOME_LINK": "Go home."
+  },
+  "NEW_CONVERSATION": {
+    "TO": "To:"
   }
 }

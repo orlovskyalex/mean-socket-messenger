@@ -5,31 +5,21 @@ class Socket {
 
   init(io) {
     this.io = io;
-    this.io.use(this.tokenValidator);
     this.io.on('connection', this.registerSocketListeners());
-  }
-
-  tokenValidator(socket, next) {
-    const { token } = socket.handshake.query;
-
-    jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, jwtPayload) => {
-      if (!err) {
-        socket.join(jwtPayload.userId);
-      }
-
-      next();
-    });
   }
 
   registerSocketListeners() {
     return (socket) => {
-      socket.on('new message', async (data) => {
-        try {
-          const message = await Message.new(data);
-          this.io.to(message.recipient._id).to(message.sender._id).emit('new message', message);
-        } catch (e) {
-          console.log(e);
-        }
+      socket.on('enter conversation', conversation => {
+        socket.join(conversation);
+      });
+
+      socket.on('leave conversation', conversation => {
+        socket.leave(conversation);
+      });
+
+      socket.on('new message', conversation => {
+        this.io.sockets.in(conversation).emit('refresh messages', conversation);
       });
     };
   }

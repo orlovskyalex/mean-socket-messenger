@@ -1,0 +1,15 @@
+<div class="container">
+  <a routerLink="new/">
+    New conversation
+  </a>
+
+  <hr>
+
+  <div *ngIf="conversations$ | async as conversations">
+    <div *ngFor="let conversation of conversations">
+      <a [routerLink]="conversation._id">
+        {{ conversation.title }}
+      </a>
+    </div>
+  </div>
+</div>

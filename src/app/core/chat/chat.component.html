@@ -1,4 +1,4 @@
-<div class="container" *ngIf="user$ | async">
+<div class="container chat-container" *ngIf="user$ | async">
   <div class="message-list mb-3" *ngIf="messages$ | async as messages">
     <div
       class="message-wrapper"
@@ -6,20 +6,11 @@
       [class.own]="isOwnMessage(message)"
     >
       <div [ngClass]="['message', getMessageClasses(message, i)]">
-        {{ message.message }}
+        {{ message.body }}
       </div>
     </div>
   </div>
-  <form class="mt-auto" [formGroup]="form" (keyup.enter)="sendMessage()">
-    <div class="d-flex">
-      <input
-        class="form-control"
-        type="text"
-        formControlName="message"
-        [placeholder]="'CHAT.ENTER_MESSAGE' | translate"
-        autocomplete="off"
-        autofocus
-      >
-    </div>
-  </form>
+  <div class="mt-auto">
+    <app-chat-form (formSubmit)="sendMessage($event)"></app-chat-form>
+  </div>
 </div>

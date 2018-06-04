@@ -2,8 +2,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('mongoose').model('User');
 
-passport.use(new LocalStrategy({ usernameField: 'email' }, (username, password, done) => {
-    User.findOne({ email: username }, (err, user) => {
+const localOptions = { usernameField: 'email' };
+
+const localStrategy = new LocalStrategy(localOptions, (email, password, done) => {
+    User.findOne({ email }, (err, user) => {
       if (err) {
         return done(err);
       }
@@ -22,4 +24,6 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (username, password, 
       return done(null, user);
     });
   },
-));
+);
+
+passport.use(localStrategy);
