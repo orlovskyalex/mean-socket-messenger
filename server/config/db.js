@@ -4,7 +4,7 @@ require('../models/User');
 require('../models/Message');
 require('../models/Conversation');
 
-let dbURI = 'mongodb://localhost/mean_chat';
+let dbURI = 'mongodb://localhost/mean-socket-messenger';
 
 if (process.env.NODE_ENV === 'production') {
   const {MONGODB_USER, MONGODB_PASSWORD, MONGODB_ADDRESS} = process.env;
