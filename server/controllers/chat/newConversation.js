@@ -23,7 +23,7 @@ const newConversation = async (req, res, next) => {
       return next();
     }
 
-    const conversation = await Conversation.create({
+    const conversation = await Conversation.findOneOrCreate({
       participants: [userId, recipientId],
     });
 
