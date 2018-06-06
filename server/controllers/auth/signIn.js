@@ -1,5 +1,6 @@
 const passport = require('passport');
 const response = require('../../utils/response');
+const catchException = require('../../utils/catchException');
 
 const signIn = (req, res) => {
   const send = response(res);
@@ -18,9 +19,8 @@ const signIn = (req, res) => {
 
       send.json({ token: user.generateJwt() });
     })(req, res);
-  } catch ({ message }) {
-    console.log('signIn error:', message);
-    send.error(message);
+  } catch (e) {
+    return catchException('signIn', send, next, e);
   }
 };
 

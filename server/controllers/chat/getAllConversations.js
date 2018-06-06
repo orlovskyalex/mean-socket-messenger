@@ -16,7 +16,7 @@ const getAllConversations = async (req, res, next) => {
 
     return send.json({ conversations });
   } catch (e) {
-    return catchException('getAllConversations', e, send, next);
+    return catchException('getAllConversations', send, next, e);
   }
 };
 

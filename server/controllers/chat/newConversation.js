@@ -40,7 +40,7 @@ const newConversation = async (req, res, next) => {
 
     return next();
   } catch (e) {
-    return catchException('newConversation', e, send, next);
+    return catchException('newConversation', send, next, e);
   }
 };
 

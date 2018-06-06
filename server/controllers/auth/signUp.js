@@ -1,33 +1,28 @@
 const User = require('mongoose').model('User');
 const response = require('../../utils/response');
-const capitalize = require('../../utils/capitalize');
+const catchException = require('../../utils/catchException');
 
-const signUp = async (req, res) => {
+const signUp = async (req, res, next) => {
   const send = response(res);
 
   try {
     if (!req.body || Object.keys(req.body).length < 3) {
-      throw new Error('All fields are required!');
+      console.log('signUp error: All fields are required!');
+      send.error('All fields are required!', 422);
+      return next();
     }
 
-    const { name, email, password } = req.body;
+    const user = await new User(req.body).save();
 
-    let user = new User();
-
-    user.name = {
-      first: capitalize(name.first),
-      last: capitalize(name.last),
-    };
-    user.email = email;
-
-    user.setPassword(password);
-
-    await user.save();
     send.json({ token: user.generateJwt() });
-  } catch ({ code, message }) {
-    const e = code === 11000 ? 'User already exists!' : message;
-    console.log('sign up error:', e);
-    send.error(e);
+  } catch (e) {
+    let errToSend;
+
+    if (e.code === 11000) {
+      errToSend = 'User already exists';
+    }
+
+    return catchException('signUp', send, next, e, errToSend);
   }
 };
 

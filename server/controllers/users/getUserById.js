@@ -1,28 +1,23 @@
 const User = require('mongoose').model('User');
 const response = require('../../utils/response');
+const catchException = require('../../utils/catchException');
 
-const getUserById = (req, res) => {
+const getUserById = async (req, res, next) => {
   const send = response(res);
 
   try {
     const { userId } = req.params;
 
     if (!userId) {
-      send.error('UnauthorizedError: private profile', 401);
-    } else {
-      User.findById(userId)
-        .select('_id name email')
-        .exec((err, user) => {
-          if (err) {
-            throw new Error(err);
-          }
-
-          send.json({ user });
-        });
+      console.log('getUserById error: no userId specified');
+      send.error('You should specify userId', 422);
+      return next();
     }
-  } catch ({ message }) {
-    console.log('getUserById error:', message);
-    send.error(message);
+
+    const user = await User.findById(userId).select('-__v');
+    send.json({ user });
+  } catch (e) {
+    return catchException('getUserById', send, next, e);
   }
 };
 

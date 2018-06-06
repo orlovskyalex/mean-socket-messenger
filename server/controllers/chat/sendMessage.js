@@ -31,7 +31,7 @@ const sendMessage = async (req, res, next) => {
     send.json({ message: 'Message sent' });
     return next();
   } catch (e) {
-    return catchException('sendMessage', e, send, next);
+    return catchException('sendMessage', send, next, e);
   }
 };
 
