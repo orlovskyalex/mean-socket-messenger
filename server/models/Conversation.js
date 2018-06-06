@@ -2,12 +2,15 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const conversationSchema = Schema({
-  participants: [
-    {
-      type: Schema.ObjectId,
-      ref: 'User',
-    },
-  ],
+  participants: {
+    type: [
+      {
+        type: Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
+    required: true,
+  },
 });
 
 conversationSchema.statics.findOneOrCreate = function (condition) {
