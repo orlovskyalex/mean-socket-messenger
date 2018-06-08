@@ -5,8 +5,9 @@ import { User } from '../../shared/user/user.model';
 import { FormGroup } from '@angular/forms';
 import { ChatService } from '../../shared/chat/chat.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
+import { of } from 'rxjs/observable/of';
 
 @Component({
   selector: 'app-new-conversation',
@@ -15,9 +16,10 @@ import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 })
 export class NewConversationComponent implements OnInit {
 
-  users: User[];
   selectedRecipient: User;
   recipientId: string;
+  searching = false;
+  searchFailed = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,34 +29,40 @@ export class NewConversationComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.recipientId = this.route.snapshot.params.recipientId;
 
-    this.user.getUserList()
-      .subscribe(users => {
-        this.users = users;
-
-        if (this.recipientId) {
-          this.selectedRecipient = users.find(user => user._id === this.recipientId);
-        }
-      });
+    if (this.recipientId) {
+      this.user.getUserById(this.recipientId)
+        .toPromise()
+        .then(user => {
+          this.selectedRecipient = user;
+        });
+    }
   }
 
   searchUser() {
     return (text$: Observable<string>): Observable<User[]> => {
       return text$.pipe(
-        debounceTime(200),
+        debounceTime(500),
         distinctUntilChanged(),
-        map((query: string) => {
-          if (query.length < 2) {
-            return [];
-          } else {
-            // return first 10 results
-            return this.users
-              .filter(user => user.fullName.toLowerCase().includes(query.toLowerCase()))
-              .slice(0, 10);
-          }
-        }),
+        tap(() => this.searching = true),
+        switchMap((query: string) => {
+            if (query.length < 2) {
+              return of([]);
+            }
+
+            return this.user.getUserList({ name: query })
+              .pipe(
+                tap(() => this.searchFailed = false),
+                catchError(() => {
+                  this.searchFailed = true;
+                  return of([]);
+                }),
+              );
+          },
+        ),
+        tap(() => this.searching = false),
       );
     };
   }
