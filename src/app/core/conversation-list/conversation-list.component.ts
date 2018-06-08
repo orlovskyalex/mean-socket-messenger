@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import { Conversation } from '../../shared/chat/interfaces/conversation.interface';
 
 @Component({
-  selector: 'app-all-conversations',
-  templateUrl: './all-conversations.component.html',
-  styleUrls: ['./all-conversations.component.scss'],
+  selector: 'app-conversation-list',
+  templateUrl: './conversation-list.component.html',
+  styleUrls: ['./conversation-list.component.scss'],
 })
-export class AllConversationsComponent implements OnInit {
+export class ConversationListComponent implements OnInit {
 
   conversations$: Observable<Conversation[]>;
 

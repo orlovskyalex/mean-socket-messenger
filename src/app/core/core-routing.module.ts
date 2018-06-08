@@ -4,7 +4,6 @@ import { AuthGuard } from '../shared/auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { CoreComponent } from './core.component';
 import { NewConversationComponent } from './new-conversation/new-conversation.component';
-import { AllConversationsComponent } from './all-conversations/all-conversations.component';
 
 const routes: Routes = [
   {
@@ -12,11 +11,6 @@ const routes: Routes = [
     component: CoreComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: '',
-        component: AllConversationsComponent,
-        pathMatch: 'full',
-      },
       {
         path: 'new',
         component: NewConversationComponent,

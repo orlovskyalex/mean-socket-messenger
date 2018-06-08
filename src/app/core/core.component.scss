@@ -1,0 +1,20 @@
+.conversation-list-section {
+  flex: 0 0 25%;
+}
+
+.chat-section {
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+  flex: 1 1 75%;
+}
+
+section {
+  & ::ng-deep {
+    .section-header {
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+      padding: 12px;
+    }
+  }
+}

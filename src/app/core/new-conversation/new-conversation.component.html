@@ -1,23 +1,25 @@
-<div class="container chat-container">
-  <div class="form-group row">
-    <label for="recipient" class="col-form-label col-1">
-      {{ 'NEW_CONVERSATION.TO' | translate }}
-    </label>
-    <input
-      type="text"
-      [ngClass]="['col-11', recipientId ? 'form-control-plaintext' : 'form-control']"
-      id="recipient"
-      [ngbTypeahead]="searchUser()"
-      [focusFirst]="false"
-      [inputFormatter]="userFormatter()"
-      [resultFormatter]="userFormatter()"
-      [(ngModel)]="selectedRecipient"
-      (selectItem)="selectRecipient($event)"
-      [readonly]="recipientId"
-    >
-  </div>
+<div class="section-header">
+  <label for="recipient" class="m-0">
+    {{ 'NEW_CONVERSATION.TO' | translate }}
+  </label>
+  <input
+    type="text"
+    class="input-recipient"
+    id="recipient"
+    [(ngModel)]="selectedRecipient"
+    [ngbTypeahead]="searchUser()"
+    [inputFormatter]="userFormatter()"
+    [resultFormatter]="userFormatter()"
+    (selectItem)="selectRecipient($event)"
+    [readonly]="recipientId"
+    [focusFirst]="false"
+    [editable]="false"
+    [placeholder]="'NEW_CONVERSATION.PLACEHOLDER' | translate"
+    autocomplete="off"
+    autofocus
+  >
+</div>
 
-  <div class="mt-auto" *ngIf="recipientId">
-    <app-chat-form (formSubmit)="createConversation($event)"></app-chat-form>
-  </div>
+<div class="mt-auto">
+  <app-chat-form (formSubmit)="createConversation($event)"></app-chat-form>
 </div>

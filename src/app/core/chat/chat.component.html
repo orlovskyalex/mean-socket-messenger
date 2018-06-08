@@ -1,16 +1,18 @@
-<div class="container chat-container" *ngIf="user$ | async">
-  <div class="message-list mb-3" *ngIf="messages$ | async as messages">
-    <div
-      class="message-wrapper"
-      *ngFor="let message of messages; let i = index"
-      [class.own]="isOwnMessage(message)"
-    >
-      <div [ngClass]="['message', getMessageClasses(message, i)]">
-        {{ message.body }}
+<div class="page-content">
+  <div class="container chat-container" *ngIf="user$ | async">
+    <div class="message-list mb-3" *ngIf="messages$ | async as messages">
+      <div
+        class="message-wrapper"
+        *ngFor="let message of messages; let i = index"
+        [class.own]="isOwnMessage(message)"
+      >
+        <div [ngClass]="['message', getMessageClasses(message, i)]">
+          {{ message.body }}
+        </div>
       </div>
     </div>
-  </div>
-  <div class="mt-auto">
-    <app-chat-form (formSubmit)="sendMessage($event)"></app-chat-form>
+    <div class="mt-auto">
+      <app-chat-form (formSubmit)="sendMessage($event)"></app-chat-form>
+    </div>
   </div>
 </div>

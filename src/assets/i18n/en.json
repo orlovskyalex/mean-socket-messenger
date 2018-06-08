@@ -41,6 +41,7 @@
     "HOME_LINK": "Go home."
   },
   "NEW_CONVERSATION": {
-    "TO": "To:"
+    "TO": "To:",
+    "PLACEHOLDER": "Person name"
   }
 }

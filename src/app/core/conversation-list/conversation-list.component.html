@@ -1,0 +1,12 @@
+<div class="section-header">
+  <a routerLink="new/">
+    New conversation
+  </a>
+</div>
+<div class="section-body">
+  <div *ngFor="let conversation of conversations$ | async">
+    <a [routerLink]="conversation._id">
+      {{ conversation.title }}
+    </a>
+  </div>
+</div>

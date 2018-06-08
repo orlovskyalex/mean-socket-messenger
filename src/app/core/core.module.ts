@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
 import { NewConversationComponent } from './new-conversation/new-conversation.component';
-import { AllConversationsComponent } from './all-conversations/all-conversations.component';
+import { ConversationListComponent } from './conversation-list/conversation-list.component';
 import { ChatFormComponent } from './chat/chat-form/chat-form.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -25,7 +25,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CoreComponent,
     ChatComponent,
     NewConversationComponent,
-    AllConversationsComponent,
+    ConversationListComponent,
     ChatFormComponent,
   ],
 })

@@ -2,14 +2,13 @@
 @import "~ngx-toastr/toastr-bs4-alert";
 
 body {
-  height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .page-content {
-  min-height: 100%;
-  padding: 20px 0;
+  height: calc(100vh - 58px); // - header height
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .text-bold {
@@ -19,6 +18,4 @@ body {
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 58px); // - header height
-  padding: 15px;
 }
