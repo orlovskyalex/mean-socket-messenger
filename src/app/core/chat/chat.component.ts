@@ -13,7 +13,7 @@ import { UserService } from '../../shared/user/user.service';
 export class ChatComponent implements OnInit, OnDestroy {
 
   messages$ = this.chat.messages$;
-  user$ = this.user.user$;
+  user$ = this.user.loggedUser$;
 
   private conversationId: string;
 

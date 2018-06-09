@@ -32,7 +32,7 @@ export class ChatService {
       .map(({ conversations }: AllConversationsResponse) => {
         // removing current user from a list of participants
         // and parsing a conversation title
-        const userId = this.user.user$.getValue()._id;
+        const userId = this.user.loggedUser$.getValue()._id;
 
         return conversations.map(conversation => {
           conversation.participants = conversation.participants

@@ -12,7 +12,7 @@ import { GetUserListParams } from './interfaces/get-user-list-params.interface';
 @Injectable()
 export class UserService {
 
-  user$ = new BehaviorSubject<User>(null);
+  loggedUser$ = new BehaviorSubject<User>(null);
 
   private baseUrl = '/users';
 
@@ -39,7 +39,7 @@ export class UserService {
     return this.http.get(this.baseUrl, { params: httpParams })
       .map(({ users }: UserListResponse) => {
         if (exceptCurrentUser) {
-          users = users.filter(user => user._id !== this.user._id);
+          users = users.filter(user => user._id !== this.loggedUser._id);
         }
 
         return users.map(user => new User(user));
@@ -57,19 +57,19 @@ export class UserService {
       const tokenInfo = this.auth.getTokenInfo(token);
       this.getUserById(tokenInfo.userId)
         .subscribe(user => {
-          this.user = user;
+          this.loggedUser = user;
         });
     } else {
-      this.user = null;
+      this.loggedUser = null;
     }
   }
 
-  private get user(): User {
-    return this.user$.getValue();
+  private get loggedUser(): User {
+    return this.loggedUser$.getValue();
   }
 
-  private set user(user: User | null) {
-    this.user$.next(user);
+  private set loggedUser(user: User | null) {
+    this.loggedUser$.next(user);
   }
 
 }

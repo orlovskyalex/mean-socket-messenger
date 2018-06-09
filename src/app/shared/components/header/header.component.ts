@@ -9,7 +9,7 @@ import { AuthService } from '../../auth/auth.service';
 })
 export class HeaderComponent {
 
-  user$ = this.userService.user$;
+  user$ = this.userService.loggedUser$;
 
   constructor(private userService: UserService, private auth: AuthService) {
   }
