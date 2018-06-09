@@ -9,20 +9,15 @@ const getUserList = async (req, res, next) => {
   try {
     let condition = {};
 
-    let { name } = req.query;
+    const { name } = req.query;
 
     if (name) {
-      if (name.length < 2) {
-        console.log('getUserList error: name query is too short');
-        send.error('Name query should be at least two characters long', 422);
-        return next();
-      }
+      const nameRegex = new RegExp(name, 'i');
 
-      name = new RegExp(name, 'i');
       condition = {
         $or: [
-          { 'name.first': { $regex: name } },
-          { 'name.last': { $regex: name } },
+          { 'name.first': { $regex: nameRegex } },
+          { 'name.last': { $regex: nameRegex } },
         ],
       };
     }
