@@ -27,7 +27,7 @@ export class UserService {
       });
   }
 
-  getUserList(params: GetUserListParams, exceptCurrentUser = true): Observable<User[]> {
+  getUserList(params: GetUserListParams, skipLoggedUser = true): Observable<User[]> {
     const { name } = params;
 
     const httpParams = new HttpParams({
@@ -38,7 +38,7 @@ export class UserService {
 
     return this.http.get(this.baseUrl, { params: httpParams })
       .map(({ users }: UserListResponse) => {
-        if (exceptCurrentUser) {
+        if (skipLoggedUser) {
           users = users.filter(user => user._id !== this.loggedUser._id);
         }
 

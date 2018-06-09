@@ -55,6 +55,11 @@ export class ChatService {
       });
   }
 
+  checkExistingConversation(recipientId: string): Observable<Conversation> {
+    return this.http.get(`${this.baseUrl}/new/${recipientId}`)
+      .map(({ conversation }: ConversationResponse) => conversation);
+  }
+
   enterConversation(conversationId: string): void {
     this.socket.socket.emit('enter conversation', conversationId);
     this.socket.socket.on('refresh messages', this.refreshMessages);

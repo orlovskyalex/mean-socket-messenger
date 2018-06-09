@@ -5,9 +5,10 @@ import { User } from '../../shared/user/user.model';
 import { FormGroup } from '@angular/forms';
 import { ChatService } from '../../shared/chat/chat.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, switchMap, merge } from 'rxjs/operators';
 import { NgbTypeaheadSelectItemEvent } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs/observable/of';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-new-conversation',
@@ -18,8 +19,12 @@ export class NewConversationComponent implements OnInit {
 
   selectedRecipient: User;
   recipientId: string;
-  searching = false;
-  searchFailed = false;
+
+  // TODO: add some feedback to user
+  // searching = false;
+  // searchFailed = false;
+
+  private focus$ = new Subject<string>();
 
   constructor(
     private route: ActivatedRoute,
@@ -33,43 +38,43 @@ export class NewConversationComponent implements OnInit {
     this.recipientId = this.route.snapshot.params.recipientId;
 
     if (this.recipientId) {
-      this.user.getUserById(this.recipientId)
-        .toPromise()
-        .then(user => {
-          this.selectedRecipient = user;
-        });
+      const existingConversation = await this.chat.checkExistingConversation(this.recipientId).toPromise();
+
+      if (existingConversation) {
+        return this.router.navigateByUrl(`/messages/${existingConversation._id}`);
+      }
+
+      this.selectedRecipient = await this.user.getUserById(this.recipientId).toPromise();
     }
   }
 
-  searchUser() {
-    return (text$: Observable<string>): Observable<User[]> => {
-      return text$.pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        tap(() => this.searching = true),
-        switchMap((query: string) => {
-            if (query.length < 2) {
+  searchUser = (text$: Observable<string>): Observable<User[]> => {
+    return text$.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      merge(this.focus$),
+      // tap(() => this.searching = true),
+      switchMap((query: string) => {
+        return this.user.getUserList({ name: query })
+          .pipe(
+            // tap(() => this.searchFailed = false),
+            catchError(() => {
+              // this.searchFailed = true;
               return of([]);
-            }
+            }),
+          );
+      }),
+      // tap(() => this.searching = false),
+    );
+  };
 
-            return this.user.getUserList({ name: query })
-              .pipe(
-                tap(() => this.searchFailed = false),
-                catchError(() => {
-                  this.searchFailed = true;
-                  return of([]);
-                }),
-              );
-          },
-        ),
-        tap(() => this.searching = false),
-      );
-    };
+  searchOnFocus(e): void {
+    this.focus$.next(e.target.value);
   }
 
-  userFormatter() {
-    return (user: User): string => user.fullName;
-  }
+  userFormatter = (user: User): string => {
+    return user.fullName;
+  };
 
   selectRecipient(e: NgbTypeaheadSelectItemEvent) {
     const user = e.item as User;

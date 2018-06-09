@@ -7,19 +7,19 @@
     class="input-recipient"
     id="recipient"
     [(ngModel)]="selectedRecipient"
-    [ngbTypeahead]="searchUser()"
-    [inputFormatter]="userFormatter()"
-    [resultFormatter]="userFormatter()"
+    [ngbTypeahead]="searchUser"
+    [inputFormatter]="userFormatter"
+    [resultFormatter]="userFormatter"
+    [editable]="false"
+    (focus)="searchOnFocus($event)"
     (selectItem)="selectRecipient($event)"
     [readonly]="recipientId"
-    [focusFirst]="false"
-    [editable]="false"
     [placeholder]="'NEW_CONVERSATION.PLACEHOLDER' | translate"
     autocomplete="off"
     autofocus
   >
 </div>
 
-<div class="mt-auto">
+<div class="section-body">
   <app-chat-form (formSubmit)="createConversation($event)"></app-chat-form>
 </div>
