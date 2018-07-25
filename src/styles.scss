@@ -5,10 +5,12 @@ body {
   overflow: hidden;
 }
 
-.page-content {
-  height: calc(100vh - 58px); // - header height
-  overflow-x: hidden;
-  overflow-y: auto;
+main {
+  &.content-body {
+    height: calc(100vh - 56px); // - header height
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
 
 .text-bold {
