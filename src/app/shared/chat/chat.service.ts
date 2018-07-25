@@ -16,6 +16,7 @@ import { User } from '../user/user.model';
 @Injectable()
 export class ChatService {
 
+  conversations$ = new BehaviorSubject<Conversation[]>([]);
   messages$ = new BehaviorSubject<Message[]>([]);
 
   private baseUrl = '/chat';
@@ -27,8 +28,8 @@ export class ChatService {
   ) {
   }
 
-  getAllConversations(): Observable<Conversation[]> {
-    return this.http.get(this.baseUrl)
+  getAllConversations(): void {
+    this.http.get(this.baseUrl)
       .map(({ conversations }: AllConversationsResponse) => {
         // removing current user from a list of participants
         // and parsing a conversation title
@@ -45,6 +46,9 @@ export class ChatService {
 
           return conversation;
         });
+      })
+      .subscribe((conversations: Conversation[]) => {
+        this.conversations$.next(conversations);
       });
   }
 
@@ -80,10 +84,15 @@ export class ChatService {
 
   createConversation(recipientId: string, message: string): Observable<string> {
     return this.http.post(`${this.baseUrl}/new/${recipientId}`, { message })
-      .map((response: NewConversationResponse) => response.conversationId);
+      .map((response: NewConversationResponse) => response.conversationId)
+      .do(this.refreshConversationList);
   }
 
-  private refreshMessages = (conversationId: string) => {
+  private refreshConversationList = (): void => {
+    this.getAllConversations();
+  };
+
+  private refreshMessages = (conversationId: string): void => {
     this.getConversation(conversationId);
   };
 
