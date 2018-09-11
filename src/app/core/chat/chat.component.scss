@@ -1,3 +1,11 @@
+@import "variables";
+
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
 .message-list {
   display: flex;
   flex-direction: column;
@@ -46,5 +54,20 @@
 
   &.msg-tr {
     border-top-right-radius: 4px;
+  }
+}
+
+.form-control {
+  border-color: rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  border-width: 1px 0 0 0;
+  resize: none;
+
+  &::placeholder {
+    color: $greyControlPlaceholder;
+  }
+
+  &:focus {
+    box-shadow: none;
   }
 }

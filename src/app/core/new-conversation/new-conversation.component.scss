@@ -1,7 +1,13 @@
-$greyText: rgba(0, 0, 0, 0.4);
+@import "variables";
+
+:host {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
 
 .section-header {
-  color: $greyText;
+  color: $greyControlPlaceholder;
 
   .input-recipient {
     border: 0;
@@ -11,7 +17,7 @@ $greyText: rgba(0, 0, 0, 0.4);
     padding: 0;
 
     &::placeholder {
-      color: $greyText;
+      color: $greyControlPlaceholder;
     }
   }
 }

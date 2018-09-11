@@ -1,18 +1,23 @@
-<div class="page-content">
-  <div class="container chat-container" *ngIf="user$ | async">
-    <div class="message-list mb-3" *ngIf="messages$ | async as messages">
-      <div
-        class="message-wrapper"
-        *ngFor="let message of messages; let i = index"
-        [class.own]="isOwnMessage(message)"
-      >
-        <div [ngClass]="['message', getMessageClasses(message, i)]">
-          {{ message.body }}
-        </div>
-      </div>
-    </div>
-    <div class="mt-auto">
-      <app-chat-form (formSubmit)="sendMessage($event)"></app-chat-form>
+<div class="message-list my-3">
+  <div
+    class="message-wrapper"
+    *ngFor="let message of messages$ | async; let i = index"
+    [class.own]="isOwnMessage(message)"
+  >
+    <div [ngClass]="['message', getMessageClasses(message, i)]">
+      {{ message.body }}
     </div>
   </div>
+</div>
+<div class="mt-auto">
+  <form [formGroup]="form" (keydown.meta.enter)="submit()">
+    <div class="d-flex">
+      <textarea
+        class="form-control"
+        formControlName="message"
+        [placeholder]="'CHAT.ENTER_MESSAGE' | translate"
+        autocomplete="off"
+      ></textarea>
+    </div>
+  </form>
 </div>

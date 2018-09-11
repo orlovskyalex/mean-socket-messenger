@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../shared/chat/chat.service';
 
 @Component({
@@ -6,11 +6,15 @@ import { ChatService } from '../../shared/chat/chat.service';
   templateUrl: './conversation-list.component.html',
   styleUrls: ['./conversation-list.component.scss'],
 })
-export class ConversationListComponent {
+export class ConversationListComponent implements OnInit {
 
   conversations$ = this.chat.conversations$;
 
   constructor(private chat: ChatService) {
+  }
+
+  ngOnInit() {
+    this.chat.getAllConversations();
   }
 
 }

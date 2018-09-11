@@ -1,8 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Message } from '../../shared/chat/interfaces/message.interface';
 import { ChatService } from '../../shared/chat/chat.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../../shared/user/user.service';
 
 @Component({
@@ -12,25 +12,43 @@ import { UserService } from '../../shared/user/user.service';
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
+  @Input() recipientId: string;
+
   messages$ = this.chat.messages$;
   user$ = this.user.loggedUser$;
+  form: FormGroup;
 
   private conversationId: string;
 
   constructor(
+    private fb: FormBuilder,
     private chat: ChatService,
     private route: ActivatedRoute,
+    private router: Router,
     private user: UserService,
   ) {
   }
 
   ngOnInit() {
+    this.buildForm();
     this.conversationId = this.route.snapshot.params.conversationId;
-    this.chat.enterConversation(this.conversationId);
+    this.enterConversation();
   }
 
   ngOnDestroy() {
-    this.chat.leaveConversation(this.conversationId);
+    this.leaveConversation();
+  }
+
+  enterConversation() {
+    if (this.conversationId) {
+      this.chat.enterConversation(this.conversationId);
+    }
+  }
+
+  leaveConversation() {
+    if (this.conversationId) {
+      this.chat.leaveConversation(this.conversationId);
+    }
   }
 
   getMessageClasses(message: Message, index: number): string {
@@ -64,15 +82,36 @@ export class ChatComponent implements OnInit, OnDestroy {
     return message.author._id === this.userId;
   }
 
-  sendMessage(form: FormGroup) {
-    if (form.invalid) {
+  submit() {
+    this.recipientId ? this.createConversation() : this.sendMessage();
+  }
+
+  async sendMessage() {
+    if (this.form.invalid) {
       return;
     }
 
-    this.chat.send(this.conversationId, form.value.message)
-      .subscribe(() => {
-        form.reset();
-      });
+    await this.chat.send(this.conversationId, this.form.value.message).toPromise();
+
+    this.form.reset();
+  }
+
+  async createConversation() {
+    if (this.form.invalid) {
+      return;
+    }
+
+    const { message } = this.form.value;
+    const conversationId = await this.chat.createConversation(this.recipientId, message).toPromise();
+
+    this.form.reset();
+    this.router.navigateByUrl(`/messages/${conversationId}`);
+  }
+
+  private buildForm() {
+    this.form = this.fb.group({
+      message: [null, Validators.required],
+    });
   }
 
   private get userId(): string {

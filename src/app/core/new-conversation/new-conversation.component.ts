@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../shared/user/user.service';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../../shared/user/user.model';
-import { FormGroup } from '@angular/forms';
 import { ChatService } from '../../shared/chat/chat.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, merge } from 'rxjs/operators';
@@ -79,18 +78,6 @@ export class NewConversationComponent implements OnInit {
   selectRecipient(e: NgbTypeaheadSelectItemEvent) {
     const user = e.item as User;
     this.router.navigateByUrl(`/messages/new/${user._id}`);
-  }
-
-  createConversation(form: FormGroup) {
-    if (form.invalid) {
-      return;
-    }
-
-    this.chat.createConversation(this.recipientId, form.value.message)
-      .subscribe(conversationId => {
-        form.reset();
-        this.router.navigateByUrl(`/messages/${conversationId}`);
-      });
   }
 
 }
