@@ -15,7 +15,10 @@ const getUserById = async (req, res, next) => {
     }
 
     const user = await User.findById(userId).select('-__v');
+
     send.json({ user });
+
+    return next();
   } catch (e) {
     return catchException('getUserById', send, next, e);
   }

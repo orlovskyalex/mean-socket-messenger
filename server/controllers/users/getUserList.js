@@ -25,6 +25,8 @@ const getUserList = async (req, res, next) => {
     const users = await User.find(condition).select('-__v');
 
     send.json({ users });
+
+    return next();
   } catch (e) {
     return catchException('getUserList', send, next, e);
   }

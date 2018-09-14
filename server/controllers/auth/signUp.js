@@ -15,6 +15,8 @@ const signUp = async (req, res, next) => {
     const user = await new User(req.body).save();
 
     send.json({ token: user.generateJwt() });
+
+    return next();
   } catch (e) {
     let errToSend;
 
