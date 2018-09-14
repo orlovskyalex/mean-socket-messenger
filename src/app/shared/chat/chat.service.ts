@@ -19,7 +19,7 @@ export class ChatService {
   conversations$ = new BehaviorSubject<Conversation[]>([]);
   messages$ = new BehaviorSubject<Message[]>([]);
 
-  private baseUrl = '/chat';
+  private baseUrl = '/conversations';
 
   constructor(
     private socket: SocketService,
@@ -28,7 +28,7 @@ export class ChatService {
   ) {
   }
 
-  getAllConversations(): void {
+  getConversationList(): void {
     this.http.get(this.baseUrl)
       .map(({ conversations }: AllConversationsResponse) => {
         // removing current user from a list of participants
@@ -53,7 +53,7 @@ export class ChatService {
   }
 
   getConversation(conversationId: string): void {
-    this.http.get(`${this.baseUrl}/${conversationId}`)
+    this.http.get(`${this.baseUrl}/${conversationId}/messages`)
       .subscribe(({ conversation }: ConversationResponse) => {
         this.messages$.next(conversation.messages);
       });
@@ -76,7 +76,7 @@ export class ChatService {
   }
 
   send(conversationId: string, message: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/${conversationId}`, { message })
+    return this.http.post(`${this.baseUrl}/${conversationId}/messages`, { message })
       .do(() => {
         this.socket.socket.emit('new message', conversationId);
       });
@@ -89,7 +89,7 @@ export class ChatService {
   }
 
   private refreshConversationList = (): void => {
-    this.getAllConversations();
+    this.getConversationList();
   };
 
   private refreshMessages = (conversationId: string): void => {

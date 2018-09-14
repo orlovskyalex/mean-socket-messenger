@@ -16,11 +16,12 @@ const checkExistingConversation = async (req, res, next) => {
     }
 
     const conversation = await Conversation.findOne({ participants: [userId, recipientId] })
-      .select('participants')
       .populate('participants', 'name')
       .exec();
 
     send.json({ conversation });
+
+    return next();
   } catch (e) {
     return catchException('checkExistingConversation', send, next, e);
   }

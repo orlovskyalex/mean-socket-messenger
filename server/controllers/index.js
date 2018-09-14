@@ -3,6 +3,6 @@ const auth = require('../middlewares/auth');
 
 router.use('/auth', require('./auth'));
 router.use('/users', auth, require('./users'));
-router.use('/chat', auth, require('./chat'));
+router.use('/conversations', auth, require('./conversations'));
 
 module.exports = router;

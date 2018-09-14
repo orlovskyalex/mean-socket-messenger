@@ -14,7 +14,7 @@ export class ConversationListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chat.getAllConversations();
+    this.chat.getConversationList();
   }
 
 }

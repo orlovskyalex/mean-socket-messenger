@@ -2,7 +2,7 @@ const Message = require('mongoose').model('Message');
 const response = require('../../utils/response');
 const catchException = require('../../utils/catchException');
 
-const getConversation = async (req, res, next) => {
+const getMessageList = async (req, res, next) => {
   const send = response(res);
   const { conversationId } = req.params;
 
@@ -20,9 +20,11 @@ const getConversation = async (req, res, next) => {
       .exec();
 
     send.json({ conversation: { messages } });
+
+    return next();
   } catch (e) {
     return catchException('getConversation', send, next, e);
   }
 };
 
-module.exports = getConversation;
+module.exports = getMessageList;
