@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client';
-import Socket = SocketIOClient.Socket;
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../auth/auth.service';
-
-// import { Socket } from 'ng-socket-io';
+import Socket = SocketIOClient.Socket;
 
 @Injectable()
 export class SocketService {
@@ -19,28 +17,26 @@ export class SocketService {
     return this._socket;
   }
 
-  disconnect() {
-    if (this.socket) {
-      this._socket.disconnect();
-      this._socket = null;
-    }
-  }
-
-  private watchToken() {
+  private watchToken(): void {
     this.auth.token$.subscribe((token: string) => {
-      this.create(token);
+      if (token) {
+        const userId = this.auth.getTokenInfo(token).userId;
+        this.connect(userId);
+      } else {
+        this.disconnect();
+      }
     });
   }
 
-  private create(token: string) {
-    if (token) {
-      this._socket = io(environment.SOCKET_URL, {
-        query: {
-          token,
-        },
-      });
-    } else {
-      this.disconnect();
+  private connect(userId: string): void {
+    this._socket = io(environment.SOCKET_URL);
+    this._socket.emit('join', userId);
+  }
+
+  private disconnect(): void {
+    if (this.socket) {
+      this._socket.disconnect();
+      this._socket = null;
     }
   }
 

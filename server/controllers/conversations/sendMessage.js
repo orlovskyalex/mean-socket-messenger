@@ -1,10 +1,10 @@
-const Conversation = require('mongoose').model('Conversation');
 const Message = require('mongoose').model('Message');
 const response = require('../../utils/response');
 const catchException = require('../../utils/catchException');
 
 const sendMessage = async (req, res, next) => {
   const send = response(res);
+  const socket = req.app.get('socket');
   const { userId } = req.user;
   const { conversationId } = req.params;
   const { message: messageBody } = req.body;
@@ -29,6 +29,8 @@ const sendMessage = async (req, res, next) => {
     });
 
     send.json({ message: 'Message sent' });
+
+    socket.emitNewMessage(message);
 
     return next();
   } catch (e) {

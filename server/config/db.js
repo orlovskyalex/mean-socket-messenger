@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
   dbURI = `mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_ADDRESS}`;
 }
 
-mongoose.connect(dbURI);
+mongoose.connect(dbURI, { useNewUrlParser: true });
 
 // CONNECTION EVENTS
 mongoose.connection.on('connected', () => {

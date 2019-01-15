@@ -26,27 +26,13 @@ export class ChatService {
     private http: HttpClient,
     private user: UserService,
   ) {
+    this.registerSocketListeners();
   }
 
   getConversationList(): void {
     this.http.get(this.baseUrl)
-      .map(({ conversations }: AllConversationsResponse) => {
-        // removing current user from a list of participants
-        // and parsing a conversation title
-        const userId = this.user.loggedUser$.getValue()._id;
-
-        return conversations.map(conversation => {
-          conversation.participants = conversation.participants
-            .filter(participant => participant._id !== userId)
-            .map(participant => new User(participant));
-
-          conversation.title = conversation.participants
-            .map(participant => participant.fullName)
-            .join(',');
-
-          return conversation;
-        });
-      })
+      .map(this.parseConversationsResponse)
+      .do(this.joinConversations)
       .subscribe((conversations: Conversation[]) => {
         this.conversations$.next(conversations);
       });
@@ -55,7 +41,7 @@ export class ChatService {
   getConversation(conversationId: string): void {
     this.http.get(`${this.baseUrl}/${conversationId}/messages`)
       .subscribe(({ conversation }: ConversationResponse) => {
-        this.messages$.next(conversation.messages);
+        // this.messages$.next(conversation.messages);
       });
   }
 
@@ -64,36 +50,62 @@ export class ChatService {
       .map(({ conversation }: ConversationResponse) => conversation);
   }
 
-  enterConversation(conversationId: string): void {
-    this.socket.socket.emit('enter conversation', conversationId);
-    this.socket.socket.on('refresh messages', this.refreshMessages);
-    this.getConversation(conversationId);
-  }
-
-  leaveConversation(conversationId: string): void {
-    this.socket.socket.emit('leave conversation', conversationId);
-    this.socket.socket.off('refresh messages', this.refreshMessages);
-  }
-
   send(conversationId: string, message: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/${conversationId}/messages`, { message })
-      .do(() => {
-        this.socket.socket.emit('new message', conversationId);
-      });
+    return this.http.post(`${this.baseUrl}/${conversationId}/messages`, { message });
   }
 
   createConversation(recipientId: string, message: string): Observable<string> {
     return this.http.post(`${this.baseUrl}/new/${recipientId}`, { message })
-      .map((response: NewConversationResponse) => response.conversationId)
-      .do(this.refreshConversationList);
+      .map((response: NewConversationResponse) => response.conversationId);
   }
 
-  private refreshConversationList = (): void => {
-    this.getConversationList();
+  private registerSocketListeners(): void {
+    this.socket.socket.on('new message', this.onNewMessage);
+    this.socket.socket.on('new conversation', this.onNewConversation);
+  }
+
+  private onNewMessage = (message: any): void => {
+    console.log(message);
+    // this.getConversation(conversationId);
   };
 
-  private refreshMessages = (conversationId: string): void => {
-    this.getConversation(conversationId);
+  private onNewConversation = (rawConversation: Conversation, message: Message): void => {
+    const conversations = this.conversations$.getValue();
+    const conversation = this.parseConversation(rawConversation, message);
+
+    this.conversations$.next(conversations.concat(conversation));
+
+    this.joinConversations([conversation]);
   };
+
+  private joinConversations = (conversations: Conversation[]): void => {
+    if (!conversations || !conversations.length) {
+      return;
+    }
+
+    const conversationIds = conversations.map(conversation => conversation._id);
+    this.socket.socket.emit('join', conversationIds);
+  };
+
+  private parseConversationsResponse = ({ conversations }: AllConversationsResponse): Conversation[] => {
+    return conversations.map(conversation => this.parseConversation(conversation));
+  };
+
+  private parseConversation(conversation: Conversation, message?: Message): Conversation {
+    const currentUser = this.user.loggedUser$.getValue();
+
+    console.log(conversation);
+    const participants = conversation.participants.map(participant => new User(participant));
+    const title = participants
+      .filter(participant => participant._id !== currentUser._id)
+      .map(participant => participant.fullName)
+      .join(', ');
+
+    return {
+      ...conversation,
+      participants,
+      title,
+    };
+  }
 
 }

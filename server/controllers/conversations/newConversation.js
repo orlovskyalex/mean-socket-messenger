@@ -5,6 +5,7 @@ const catchException = require('../../utils/catchException');
 
 const newConversation = async (req, res, next) => {
   const send = response(res);
+  const socket = req.app.get('socket');
 
   try {
     const { userId } = req.user;
@@ -23,9 +24,9 @@ const newConversation = async (req, res, next) => {
       return next();
     }
 
-    const conversation = await Conversation.findOneOrCreate({
-      participants: [userId, recipientId],
-    });
+    const conversation = await Conversation.findOneOrCreate({ participants: [userId, recipientId] })
+      .populate('participants', 'name')
+      .exec();
 
     const message = await Message.create({
       conversation: conversation._id,
@@ -35,8 +36,10 @@ const newConversation = async (req, res, next) => {
 
     send.json({
       message: 'Conversation started',
-      conversationId: conversation._id,
+      conversation,
     });
+
+    socket.emitNewConversation(recipientId, conversation, message);
 
     return next();
   } catch (e) {

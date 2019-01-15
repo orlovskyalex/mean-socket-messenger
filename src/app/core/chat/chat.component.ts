@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Message } from '../../shared/chat/interfaces/message.interface';
 import { ChatService } from '../../shared/chat/chat.service';
@@ -10,7 +10,7 @@ import { UserService } from '../../shared/user/user.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit, OnDestroy {
+export class ChatComponent implements OnInit {
 
   @Input() recipientId: string;
 
@@ -32,23 +32,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.buildForm();
     this.conversationId = this.route.snapshot.params.conversationId;
-    this.enterConversation();
-  }
-
-  ngOnDestroy() {
-    this.leaveConversation();
-  }
-
-  enterConversation() {
-    if (this.conversationId) {
-      this.chat.enterConversation(this.conversationId);
-    }
-  }
-
-  leaveConversation() {
-    if (this.conversationId) {
-      this.chat.leaveConversation(this.conversationId);
-    }
   }
 
   getMessageClasses(message: Message, index: number): string {

@@ -1,20 +1,22 @@
 const app = require('express')();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
+const socket = require('./config/socket')(io);
 const cors = require('cors');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const response = require('./utils/response');
 
-const port = process.env.PORT;
-
 require('./config/db');
 require('./config/passport');
-require('./config/socket').init(io);
+
+const port = process.env.PORT;
 
 http.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
+
+app.set('socket', socket);
 
 app.use(passport.initialize());
 app.use(cors());
