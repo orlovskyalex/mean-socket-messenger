@@ -24,9 +24,9 @@ const newConversation = async (req, res, next) => {
       return next();
     }
 
-    const conversation = await Conversation.findOneOrCreate({ participants: [userId, recipientId] })
-      .populate('participants', 'name')
-      .exec();
+    const condition = { participants: [userId, recipientId] };
+
+    const conversation = await Conversation.findOneOrCreate(condition, condition);
 
     const message = await Message.create({
       conversation: conversation._id,

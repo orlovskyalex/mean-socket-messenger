@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const findOneOrCreate = require('mongoose-findoneorcreate');
 
 const conversationSchema = Schema({
   participants: {
@@ -13,10 +14,6 @@ const conversationSchema = Schema({
   },
 });
 
-conversationSchema.statics.findOneOrCreate = function (condition) {
-  return this.findOne(condition).then(conversation => {
-    return conversation ? conversation : this.create(condition);
-  });
-};
+conversationSchema.plugin(findOneOrCreate);
 
 mongoose.model('Conversation', conversationSchema);
