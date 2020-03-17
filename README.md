@@ -1,6 +1,7 @@
 # MEAN Socket Messenger
 
-The project is under active development. At the current stage you can use different browsers or an incognito mode to test this messenger.
+The project is frozen and is for informational purpose only.
+At the current stage you can use different browsers or an incognito mode to test this messenger.
 
 See additional info below.
 
